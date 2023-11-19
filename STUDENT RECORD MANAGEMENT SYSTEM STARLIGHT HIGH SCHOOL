@@ -1,22 +1,31 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
-#include <ctime>
-#include <limits>  // for numeric_limits
+#include <limits> // for numeric_limits
 
 using namespace std;
 
+// Constants
 const int MAX_STUDENTS = 50;
-const int NUM_SUBJECTS = 3;
+const int NUM_SUBJECTS = 6;
+const string TEACHER_PASSWORD = "ummihaanicomel"; // Set your desired password
 
+// Arrays to store student data
 int studentID[MAX_STUDENTS] = {0};
 string studentName[MAX_STUDENTS];
-double scores[MAX_STUDENTS][NUM_SUBJECTS]; // 2D array for Database, Fundamental, Calculus grades
+double scores[MAX_STUDENTS][NUM_SUBJECTS];
 int attendance[MAX_STUDENTS];
-string subjectNames[] = {"DATABASE CONCEPT", "FUNDAMENTAL", "CALCULUS"};
+string subjectNames[] = {"DATABASE CONCEPT", "FUNDAMENTAL", "CALCULUS", "OPERATING SYSTEM", "STATISTIC", "NETWORKING"};
 
-// Function to input student data
+// Function to validate the teacher's password
+bool validatePassword() {
+    string enteredPassword;
+    cout << setw(50) << "Enter Teacher Password: ";
+    cin >> enteredPassword;
+    return enteredPassword == TEACHER_PASSWORD;
+}
 
+// Function to clear the screen
 void clearScreen() {
 #ifdef _WIN32
     system("cls");
@@ -25,6 +34,7 @@ void clearScreen() {
 #endif
 }
 
+// Function to input student data
 void inputStudentData(int index) {
 	cout << setw(50) << "                                                     -------------------------------------------------------------" << endl;
     cout << setw(50) << "                                                           CREATE STUDENT RECORD: STARLIGHT HIGH SCHOOL" << endl;
@@ -42,7 +52,6 @@ void inputStudentData(int index) {
         cout << setw(50) << "  " << subjectNames[j] << ": ";
         cin >> scores[index][j];
     }
-
     // Calculate the average scores
     double sum = 0.0;
     for (int j = 0; j < NUM_SUBJECTS; ++j) {
@@ -61,7 +70,7 @@ void inputStudentData(int index) {
     }
 }
 
-// Function to display student records and wait for Enter key
+// Function to display student records
 void displayStudentRecords() {
     cout << setw(50) << "                                                     -------------------------------------------------------------" << endl;
     cout << setw(50) << "                                                              HIGHSCHOOL NAME: STARLIGHT HIGH SCHOOL" << endl;
@@ -86,11 +95,12 @@ void displayStudentRecords() {
 
             // Pause and wait for Enter key
             cout << "Press Enter to view the next student...";
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');  // Clear input buffer
-            cin.get();  // Wait for Enter key
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');  
+            cin.get();  
         }
     }
 }
+
 // Function to search for a student record
 void searchRecord() {
     int searchID;
@@ -122,15 +132,15 @@ void searchRecord() {
         }
     }
 
-
     if (!found) {
-        cout << setw(50) << "                                                THE STUDENT RECORD ISN'T RECORDED YET. PLEASE CREATE A NEW RECORD." << endl;
+        cout << setw(50) << "THE STUDENT RECORD ISN'T RECORDED YET. PLEASE CREATE A NEW RECORD." << endl;
     }
-                    // Pause and wait for Enter key
-            cout << "Press Enter to view the next student...";
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');  // Clear input buffer
-            cin.get();  // Wait for Enter key
-        }
+
+    // Pause and wait for Enter key
+    cout << "Press Enter to view the next student...";
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');  
+    cin.get();  
+}
 
 // Function to delete a student record
 void deleteRecord() {
@@ -152,19 +162,19 @@ void deleteRecord() {
             }
             attendance[i] = 0;
 
-            cout << setw(50) << "                                                THE STUDENT RECORD ALREADY HAS BEEN DELETED" << endl;
+            cout << setw(50) << "THE STUDENT RECORD ALREADY HAS BEEN DELETED" << endl;
             break;
         }
     }
 
     if (!found) {
-        cout << setw(50) << "                                         THE STUDENT RECORD ISN'T IN THE SYSTEM. PLEASE CREATE A NEW RECORD." << endl;
+        cout << setw(50) << "THE STUDENT RECORD ISN'T IN THE SYSTEM. PLEASE CREATE A NEW RECORD." << endl;
     }
-                // Pause and wait for Enter key
-            cout <<setw(50) << "                                                         Press Enter to view the next student...";
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');  // Clear input buffer
-            cin.get();  // Wait for Enter key
-        
+
+    // Pause and wait for Enter key
+    cout << setw(50) << "Press Enter to view the next student...";
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');  
+    cin.get();  
 }
 
 // Function to modify a student record
@@ -179,7 +189,6 @@ void modifyRecord() {
     for (int i = 0; i < MAX_STUDENTS; ++i) {
         if (studentID[i] == modifyID) {
             found = true;
-
             // Modify the student record
             cout << setw(20) << "STUDENT_ID: " << studentID[i] << endl;
 
@@ -191,7 +200,7 @@ void modifyRecord() {
             // Modify subject ID and name
             cout << setw(20) << "SUBJECT_GRADE (" << subjectNames[0] << ", " << subjectNames[1] << ", " << subjectNames[2] << "):" << endl;
             for (int j = 0; j < NUM_SUBJECTS; ++j) {
-                cout << setw(35) << "  " << subjectNames[j] << ": ";
+                cout << setw(35) << subjectNames[j] << ": ";
                 cin >> scores[i][j];
             }
 
@@ -210,22 +219,21 @@ void modifyRecord() {
             cin >> attendance[i];
 
             if (attendance[i] < 40) {
-                cout << setw(50) << "                                                        YOU FAIL TO FULFILL YOUR ATTENDANCE" << endl;
+                cout << setw(50) << "YOU FAIL TO FULFILL YOUR ATTENDANCE" << endl;
             }
 
-            cout << setw(50) << "                                                                  MODIFICATION SUCCESSFUL!" << endl;
-            break;
+            cout << setw(50) << "MODIFICATION SUCCESSFUL!" << endl;
         }
     }
 
     if (!found) {
-        cout << setw(50) << "                                                THE STUDENT RECORD ISN'T IN THE SYSTEM. PLEASE CREATE A NEW RECORD." << endl;
+        cout << setw(50) << "THE STUDENT RECORD ISN'T IN THE SYSTEM. PLEASE CREATE A NEW RECORD." << endl;
     }
 
     // Pause and wait for Enter key
-    cout << setw(50) << "                                                                  Press Enter to view the next student...";
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');  // Clear input buffer
-    cin.get();  // Wait for Enter key
+    cout << setw(50) << "Press Enter to view the next student...";
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');  
+    cin.get();  
 }
 
 // Function to calculate and display the average scores of all students
@@ -244,12 +252,17 @@ void calculateAverageScores() {
 
     if (count > 0) {
         double average = sum / (count * 3.0);
-        cout << setw(50) << "                                                          AVERAGE SCORES OF ALL STUDENTS: " << average << endl;
+        cout << setw(50) << "AVERAGE SCORES OF ALL STUDENTS: " << average << endl;
     } else {
-        cout << setw(50) << "                                                          NO STUDENT RECORDS TO CALCULATE AVERAGE." << endl;
+        cout << setw(50) << "NO STUDENT RECORDS TO CALCULATE AVERAGE." << endl;
+        // Pause and wait for Enter key
+        cout << "Press Enter to continue...";
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');  // Clear input buffer
+        cin.get();  // Wait for Enter key
     }
 }
-// Function to display top students and wait for Enter key
+
+// Function to display top students
 void displayTopStudents() {
     int count = 0;
 
@@ -266,15 +279,16 @@ void displayTopStudents() {
     }
 
     if (count == 0) {
-        cout << setw(50) << "                                                                   NO TOP STUDENTS FOUND." << endl;
+        cout << setw(50) << "NO TOP STUDENTS FOUND." << endl;
     }
 
     // Pause and wait for Enter key
-    cout << setw(50) << "                                                                     Press Enter to return to the menu...";
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');  // Clear input buffer
-    cin.get();  // Wait for Enter key
+    cout << setw(50) << "Press Enter to return to the menu...";
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');  
+    cin.get();  
 }
 
+// Main function
 int main() {
     int userChoice;
 
@@ -293,7 +307,7 @@ int main() {
             case 1: // Student
                 int studentOption;
                 do {
-                	clearScreen();  // Clear screen here
+                    clearScreen();  // Clear screen here
                     cout << setw(50) << "                                                -------------------------------------------------------------" << endl;
                     cout << setw(50) << "                                                                     STUDENT MENU" << endl;
                     cout << setw(50) << "                                                -------------------------------------------------------------" << endl;
@@ -306,97 +320,116 @@ int main() {
                     cout << setw(50) << "                                                                                                              " << endl;
                     cout << setw(50) << "                                                                   ENTER OPTION: ";
                     cin >> studentOption;
-                	clearScreen();  // Clear screen here
-                	
-                switch (studentOption) {
-                   case 1:
-                       displayStudentRecords();
-        break;
-    case 2:
-        searchRecord();
-        break;
-    case 3:
-        displayTopStudents();
-        break;
-    case 4:
-        cout << setw(50) << "                                                                                Exiting student menu." << endl;
-        break;
-    default:
-        cout << setw(50) << "                                                                       Invalid choice. Please enter a valid option." << endl;
-        // Add code to handle invalid input (clear input buffer and prompt again)
-        cin.clear();  // clear the error flag
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');  // discard invalid input
-        break;
-}
-                } while (studentOption != 4);
-                break;
+                    clearScreen();  // Clear screen here
 
-            case 2: // Teacher
-                int teacherOption;
-                do {
-                	clearScreen();  // Clear screen here
-                    cout << setw(50) << "                                                -------------------------------------------------------------" << endl;
-                    cout << setw(50) << "                                                                     TEACHER MENU" << endl;
-                    cout << setw(50) << "                                                -------------------------------------------------------------" << endl;
-                    cout << setw(50) << "                                                                                                             " << endl;
-                    cout << setw(50) << "                                                                  [ SELECT AN OPTION]" << endl;
-                    cout << setw(50) << "                                                                   1. Create Record." << endl;
-                    cout << setw(50) << "                                                                   2. Display Record." << endl;
-                    cout << setw(50) << "                                                                   3. Search Record." << endl;
-                    cout << setw(50) << "                                                                   4. Delete Record." << endl;          
-                    cout << setw(50) << "                                                                   5. Modify Record." << endl;
-                    cout << setw(50) << "                                                                   6. Top Student's Record." << endl;
-                    cout << setw(50) << "                                                                   7. Exit. " << endl;
-                    cout << setw(50) << "                                                                                                             " << endl;
-                    cout << setw(50) << "                                                                   ENTER OPTION: ";
-                    cin >> teacherOption;
-                	clearScreen();  // Clear screen here
-                    switch (teacherOption) {
+                    switch (studentOption) {
                         case 1:
-                            // Create Record
-                            int index;
-                            for (index = 0; index < MAX_STUDENTS; ++index) {
-                                if (studentID[index] == 0) {
-                                    break;
-                                }
-                            }
-                            if (index == MAX_STUDENTS) {
-                            cout << setw(50) << "                                                Student records are full. Cannot create more records." << endl;
-                            } else {
-                                inputStudentData(index);
-                            } 
-                            break;
-                        case 2:
-                            clearScreen();  // Clear screen here
                             displayStudentRecords();
                             break;
-                        case 3:
+
+                        case 2:
                             searchRecord();
                             break;
-                        case 4:
-                            deleteRecord();
-                            break;
-                        case 5:
-                            modifyRecord();
-                            break;
-                        case 6:
+
+                        case 3:
                             displayTopStudents();
                             break;
-                        case 7:
-                            cout << setw(50) << "                                                             Exiting teacher menu." << endl;
+
+                        case 4:
+                            cout << setw(50) << "                                                     -------------------------------------------------------------" << endl;
+                            cout << setw(50) << "                                                           Exiting student menu." << endl;
                             break;
+
                         default:
                             cout << setw(50) << "                                                  Invalid choice. Please enter a valid option." << endl;
                             break;
                     }
-                } while (teacherOption != 7);
+
+                } while (studentOption != 4);
+                break;
+
+            case 2: // Teacher
+                if (validatePassword()) {
+                    int teacherOption;
+                    do {
+                        clearScreen();  // Clear screen here
+                        cout << setw(50) << "                                                -------------------------------------------------------------" << endl;
+                        cout << setw(50) << "                                                                     TEACHER MENU" << endl;
+                        cout << setw(50) << "                                                -------------------------------------------------------------" << endl;
+                        cout << setw(50) << "                                                                                                             " << endl;
+                        cout << setw(50) << "                                                                  [ SELECT AN OPTION]" << endl;
+                        cout << setw(50) << "                                                                   1. Create Record." << endl;
+                        cout << setw(50) << "                                                                   2. Display Record." << endl;
+                        cout << setw(50) << "                                                                   3. Search Record." << endl;
+                        cout << setw(50) << "                                                                   4. Delete Record." << endl;          
+                        cout << setw(50) << "                                                                   5. Modify Record." << endl;
+                        cout << setw(50) << "                                                                   6. Top Student's Record." << endl;
+                        cout << setw(50) << "                                                                   7. Exit. " << endl;
+                        cout << setw(50) << "                                                                                                             " << endl;
+                        cout << setw(50) << "                                                                   ENTER OPTION: ";
+                        cin >> teacherOption;
+                        clearScreen();  // Clear screen here
+                        switch (teacherOption) {
+                            case 1:
+                                // Create Record
+                                int index;
+                                for (index = 0; index < MAX_STUDENTS; ++index) {
+                                    if (studentID[index] == 0) {
+                                        break;
+                                    }
+                                }
+                                if (index == MAX_STUDENTS) {
+                                    cout << setw(50) << "                                                Student records are full. Cannot create more records." << endl;
+                                    // Pause and wait for Enter key
+                                    cout << "Press Enter to continue...";
+                                    cin.ignore(numeric_limits<streamsize>::max(), '\n');  // Clear input buffer
+                                    cin.get();  // Wait for Enter key
+                                } else {
+                                    inputStudentData(index);
+                                } 
+                                break;
+                            case 2:
+                                clearScreen();  // Clear screen here
+                                displayStudentRecords();
+                                break;
+                            case 3:
+                                searchRecord();
+                                break;
+                            case 4:
+                                deleteRecord();
+                                break;
+                            case 5:
+                                modifyRecord();
+                                break;
+                            case 6:
+                                displayTopStudents();
+                                break;
+                            case 7:
+                                cout << setw(50) << "                                                             Exiting teacher menu." << endl;
+                                break;
+                            default:
+                                cout << setw(50) << "                                                  Invalid choice. Please enter a valid option." << endl;
+                                break;
+                        }
+                    } while (teacherOption != 7);
+                } else {
+                    clearScreen();  // Clear screen here
+                    cout << setw(50) << "                                           Invalid password. Access denied to the teacher menu." << endl;
+                    // Pause and wait for Enter key
+                    cout << "Press Enter to continue...";
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');  // Clear input buffer
+                    cin.get();  // Wait for Enter key
+                }
                 break;
 
             default:
-        cout << setw(50) << "                                                                  Invalid choice. Please enter a valid option." << endl;
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');  // discard invalid input
+                cout << setw(50) << "                                                                  Invalid choice. Please enter a valid option." << endl;
+                // Pause and wait for Enter key
+                cout << "Press Enter to continue...";
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');  // Clear input buffer
+                cin.get();  // Wait for Enter key
                 break;
-         }
+        }
     } while (userChoice != 3);
 
     return 0;
