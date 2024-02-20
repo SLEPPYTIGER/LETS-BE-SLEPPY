@@ -1,0 +1,90 @@
+/**
+ * Program Purpose: To define the attributes and behaiviors of the Flower
+ *
+ * Programmer: Haani 
+ * Dat: 20 February 2024 
+ */
+
+//Import the respective package 
+import javax.swing.JOptionPane;
+
+public class Flower 
+{
+    //Declaration of the instance variables
+    private String name;
+    private String color;
+    private double price;
+    private int quantity;
+
+    //Constructor without parameter
+    public Flower() 
+    {
+        this.name = "";
+        this.color = "";
+        this.price = 0.0;
+        this.quantity = 0;
+    }//end of constructor
+
+    // Parameterized constructor
+    public Flower(String name, String color, double price, int quantity) 
+    {
+        this.name = name;
+        this.color = color;
+        this.price = price;
+        this.quantity = quantity;
+    }
+
+    // Accessor methods
+    public String getName() 
+    {
+        return name;
+    }//end of accessor 
+
+    public String getColor() 
+    {
+        return color;
+    }//end of accessor
+
+    public double getPrice() 
+    {
+        return price;
+    }//end of accessor
+
+    public int getQuantity() 
+    {
+        return quantity;
+    }//end of accessor
+
+    //Mutator for all data members
+    public void setName(String name) 
+    {
+        this.name = name;
+      }//end of mutator
+
+    public void setColor(String color) 
+    {
+        this.color = color;
+    }
+
+    public void setPrice(double price) 
+    {
+        this.price = price;
+    }
+
+    public void setQuantity(int quantity) 
+    {
+        this.quantity = quantity;
+    }
+
+    // toString() method
+    @Override
+    public String toString() 
+    {
+        return "Flower{" +
+                "name='" + name + '\'' +
+                ", color='" + color + '\'' +
+                ", price=" + price +
+                ", quantity=" + quantity +
+                '}';
+    }//end of toString 
+}//end of class
