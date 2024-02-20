@@ -24,7 +24,6 @@ public class FlowerShop {
 
     // Method to display all flower details
     public void displayAllFlowers() {
-        clearScreen();
         System.out.println("All flower details:");
         for (Flower flower : flowerArr) {
             if (flower != null) {
@@ -99,24 +98,6 @@ public class FlowerShop {
 
         // Display all flower details after restocking
         flowerShop.displayAllFlowers();
-    }
-
-    // Method to clear the console screen
-    private static void clearScreen() {
-        try {
-            final String os = System.getProperty("os.name");
-            ProcessBuilder processBuilder;
-
-            if (os.contains("Windows")) {
-                processBuilder = new ProcessBuilder("cmd", "/c", "cls");
-            } else {
-                processBuilder = new ProcessBuilder("clear");
-            }
-
-            Process process = processBuilder.start();
-            process.waitFor();
-        } catch (Exception e) {
-            System.out.println("Error while clearing the screen: " + e.getMessage());
-        }
+    
     }//end of main
 }//end of class
