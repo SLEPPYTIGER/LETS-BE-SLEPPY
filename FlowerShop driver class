@@ -1,0 +1,122 @@
+/**
+ * Program Purpose: To define the attributes and behaiviors of the FlowerShop
+ *
+ * Programmer: Haani 
+ * Dat: 20 February 2024
+ */
+
+// Import the respective package
+import java.util.Scanner;
+
+// FlowerShop class for managing flower inventory
+public class FlowerShop {
+    private Flower[] flowerArr; // Array to store Flower objects
+
+    // Constructor to initialize flowerArr with sample data
+    public FlowerShop() {
+        flowerArr = new Flower[10];
+        flowerArr[0] = new Flower("Rose", "Red", 5.0, 10);
+        flowerArr[1] = new Flower("Tulip", "Yellow", 3.0, 15);
+        flowerArr[2] = new Flower("Lily", "White", 4.0, 8);
+        flowerArr[3] = new Flower("Daisy", "Pink", 2.0, 20);
+        flowerArr[4] = new Flower("Orchid", "Purple", 7.0, 5);
+    }
+
+    // Method to display all flower details
+    public void displayAllFlowers() {
+        clearScreen();
+        System.out.println("All flower details:");
+        for (Flower flower : flowerArr) {
+            if (flower != null) {
+                System.out.println(flower);
+                System.out.println("----------------------------");
+            }
+        }
+    }
+
+    // Method to calculate and return the total value of the flower inventory
+    public double calculateTotalValue() {
+        double totalValue = 0;
+        for (Flower flower : flowerArr) {
+            if (flower != null) {
+                totalValue += flower.getPrice() * flower.getQuantity();
+            }
+        }
+        return totalValue;
+    }
+
+    // Method to search for a flower by name and return the found flower
+    public Flower searchFlowerByName(String name) {
+        for (Flower flower : flowerArr) {
+            if (flower != null && flower.getName().equalsIgnoreCase(name)) {
+                return flower;
+            }
+        }
+        return null;
+    }
+
+    // Method to restock a specific flower in the inventory
+    public void restockFlower(Flower flower) {
+        for (int i = 0; i < flowerArr.length; i++) {
+            if (flowerArr[i] != null && flowerArr[i].getName().equalsIgnoreCase(flower.getName())) {
+                flowerArr[i].setQuantity(flowerArr[i].getQuantity() + flower.getQuantity());
+                break;
+            }
+        }
+    }
+
+    // Main method for testing FlowerShop functionalities
+    public static void main(String[] args) {
+        FlowerShop flowerShop = new FlowerShop();
+
+        // Display all flower details
+        flowerShop.displayAllFlowers();
+
+        // Calculate and display the total values of the flower inventory
+        System.out.println("Total value of flower inventory: " + flowerShop.calculateTotalValue());
+        System.out.println("----------------------------");
+
+        // Search for a flower by name and display its details
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the name of the flower to search: ");
+        String name = scanner.nextLine();
+        Flower searchedFlower = flowerShop.searchFlowerByName(name);
+        if (searchedFlower != null) {
+            System.out.println("Flower found:");
+            System.out.println(searchedFlower);
+            System.out.println("----------------------------");
+        } else {
+            System.out.println("Flower not found.");
+            System.out.println("----------------------------");
+        }
+
+        // Restock a specific flower in the inventory
+        Flower restockFlower = new Flower("Rose", "Red", 5.0, 5);
+        flowerShop.restockFlower(restockFlower);
+        System.out.println("Flower restocked:");
+        System.out.println(restockFlower);
+        System.out.println("----------------------------");
+
+        // Display all flower details after restocking
+        flowerShop.displayAllFlowers();
+    }
+
+    // Method to clear the console screen
+    private static void clearScreen() {
+        try {
+            final String os = System.getProperty("os.name");
+            ProcessBuilder processBuilder;
+
+            if (os.contains("Windows")) {
+                processBuilder = new ProcessBuilder("cmd", "/c", "cls");
+            } else {
+                processBuilder = new ProcessBuilder("clear");
+            }
+
+            Process process = processBuilder.start();
+            process.waitFor();
+        } catch (Exception e) {
+            System.out.println("Error while clearing the screen: " + e.getMessage());
+        }
+    }//end of main
+}//end of class
