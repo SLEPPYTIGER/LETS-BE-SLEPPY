@@ -1,0 +1,68 @@
+import java.io.*;
+import java.util.StringTokenizer;
+import java.text.DecimalFormat;
+import javax.swing.JOptionPane;
+
+public class LabTest0423 {
+    public static void main(String[] args) throws IOException {
+        DecimalFormat dF = new DecimalFormat("0.00");
+
+        try {
+            BufferedReader inputFile = new BufferedReader(new FileReader("orderList.txt"));
+            PrintWriter withDisc = new PrintWriter(new FileWriter("withDiscount.txt"));
+            PrintWriter withoutDisc = new PrintWriter(new FileWriter("withoutDiscount.txt"));
+
+            String inputData = null;
+            String custName, custBisc;
+            double custPrice, totPrice, priceAftDisc;
+            double discRate;
+            int custQuan;
+
+            withDisc.println("List of biscuits and the customers who get the discount rates");
+            withDisc.println("\nBiscuit's Name\t\tTotal Price(RM)\t\tPrice after Discout(RM)\t\tCustomer Name");
+            withDisc.println("--------------------------------------------------------------------------------------------");
+
+            withoutDisc.println("List of customer");
+            withoutDisc.println("\nCustomer Name\t\tTotalPrice(RM)\t\tBiscuit's Name");
+            withoutDisc.println("--------------------------------------------------------------------------------------------");
+
+            while ((inputData = inputFile.readLine()) != null) {
+                StringTokenizer sT = new StringTokenizer(inputData, ";");
+                custName = sT.nextToken();
+                custBisc = sT.nextToken();
+                custPrice = Double.parseDouble(sT.nextToken());
+                custQuan = Integer.parseInt(sT.nextToken());
+
+                if (custPrice < 0)
+                    throw new IllegalArgumentException();
+
+                totPrice = custPrice * custQuan;
+                String category = null;
+
+                if (totPrice < 50) {
+                    discRate = 0.0;
+                    priceAftDisc = totPrice;
+                    withoutDisc.println(custName + "\t\t" + dF.format(totPrice) + "\t\t\t" + custBisc);
+                } else if (totPrice >= 50 && totPrice <= 200) {
+                    discRate = 0.1;
+                    priceAftDisc = totPrice * (1 - 0.9);
+                    withDisc.println(custBisc + "\t\t" + dF.format(totPrice) + "\t\t\t" + dF.format(priceAftDisc) + "\t\t\t\t" + custName);
+                } else {
+                    discRate = 0.2;
+                    priceAftDisc = totPrice * (1 - discRate);
+                    withDisc.println(custBisc + "\t\t" + dF.format(totPrice) + "\t\t\t" + dF.format(priceAftDisc) + "\t\t\t\t" + custName);
+                }
+            }
+
+            inputFile.close();
+            withDisc.close();
+            withoutDisc.close();
+        } catch (FileNotFoundException ex) {
+            String output = "File not found";
+            JOptionPane.showMessageDialog(null, output);
+        } catch (IllegalArgumentException iae) {
+            String output = "Invalid input! The price must be a positive number";
+            JOptionPane.showMessageDialog(null, output);
+        }
+    }
+}
