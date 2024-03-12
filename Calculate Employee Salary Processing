@@ -1,0 +1,94 @@
+/**
+ * Program Description: Calculate Employee Salary Processing 
+ * Programmer: Haani 
+ * Date: 12/03/2024
+ */
+
+//import the respective packages
+import java.io.*;
+import java.util.StringTokenizer;
+
+//driver class
+public class EmployeeSalaryProcessing 
+{
+
+    public static void main(String[] args) 
+    {
+        BufferedReader reader = null;
+        PrintWriter employeeDataWriter = null;
+
+        // Variables
+        String topPerformer = null;
+        double maxAnnualSalary = Double.MIN_VALUE;
+        String leastServiceEmployee = null;
+        int minYearsOfService = Integer.MAX_VALUE;
+
+        try 
+        {
+            reader = new BufferedReader(new FileReader("employeeSalaries.txt"));
+            employeeDataWriter = new PrintWriter(new BufferedWriter(new FileWriter("employeeData.txt")));
+
+            System.out.printf("\t\tList of Employee Salary%n");
+            System.out.printf("%-24s%-15s%-15s%-15s%n", "Employee Name", "Base Salary", "Annual Salary", "Years of Service");
+            System.out.println("\t------------------------------------------------------------------");
+
+            String employeeData;
+            while ((employeeData = reader.readLine()) != null) 
+            {
+                StringTokenizer tokenizer = new StringTokenizer(employeeData, "|");
+                String employeeName = tokenizer.nextToken().trim();
+                double baseSalary = Double.parseDouble(tokenizer.nextToken().trim());
+                int yearsOfService = Integer.parseInt(tokenizer.nextToken().trim());
+
+                double annualSalary = baseSalary + (baseSalary * 0.05 * yearsOfService);
+
+                System.out.printf("%-24s%-15.2f%-15.2f%-15d%n", employeeName, baseSalary, annualSalary, yearsOfService);
+                employeeDataWriter.printf("%-24s%-15.2f%-15.2f%-15d%n", employeeName, baseSalary, annualSalary, yearsOfService);
+
+                // Update top-performing employee
+                if (annualSalary > maxAnnualSalary) 
+                {
+                    maxAnnualSalary = annualSalary;
+                    topPerformer = employeeName;
+                }
+
+                // Update employee with least years of service
+                if (yearsOfService < minYearsOfService) 
+                {
+                    minYearsOfService = yearsOfService;
+                    leastServiceEmployee = employeeName;
+                }
+            }
+
+            // Display top-performing employee
+            System.out.println("\nTop-Performing Employee: " + topPerformer + " with Annual Salary: " + maxAnnualSalary);
+
+            // Display employee with least years of service
+            System.out.println("Employee with Least Years of Service: " + leastServiceEmployee + " with " + minYearsOfService + " years");
+
+        } catch (FileNotFoundException fnfe) 
+        {
+            System.out.println("File not found!");
+        } catch (IOException ioe) 
+        {
+            System.out.println(ioe.getMessage());
+        } catch (Exception e) 
+        {
+            System.out.println(e.getMessage());
+        } finally {
+            try {
+                if (reader != null) 
+                {
+                    reader.close();
+                }
+                if (employeeDataWriter != null) 
+                {
+                    employeeDataWriter.close();
+                }
+            } catch (IOException e) 
+            {
+                System.out.println("Error closing resources: " + e.getMessage());
+            }//end of main
+        }//end of class
+    }
+}
