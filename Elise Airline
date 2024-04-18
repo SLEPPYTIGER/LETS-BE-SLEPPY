@@ -1,0 +1,677 @@
+WELCOME PAGE FRAME
+/**
+ * Program Description: Welcoming page 
+ * Programmer: Haani 
+ * Date: 19/04/2024
+ */
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+
+public class MainFrame extends JFrame {
+    private JFrame flightSearchFrame;
+
+    public MainFrame() {
+        setTitle("Reservation/Booking System");
+        setSize(800, 600);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        // Create a JPanel to hold the welcome message and logo
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BorderLayout());
+
+        // Welcome Message
+        JLabel welcomeLabel = new JLabel("Welcome to Our Reservation System");
+        welcomeLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        welcomeLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        mainPanel.add(welcomeLabel, BorderLayout.NORTH);
+
+        // Logo Picture
+        ImageIcon logoIcon = new ImageIcon("C:/Users/User/Desktop/UPTM/UPTM COURSE/NOTES SEM 2/OBJECT ORIENTED PROGRAMMING/JAVA BLUE J/eliseairline/image/ticket.JPG");
+        ImageIcon scaledLogoIcon = scaleImageIcon(logoIcon, 800, 600); // Scale the logo to fit a 400x400 area
+        JLabel logoLabel = new JLabel(scaledLogoIcon);
+        logoLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        mainPanel.add(logoLabel, BorderLayout.CENTER);
+
+        // Button - Search Flights
+        JButton searchFlightsButton = new JButton("Search Flights");
+        searchFlightsButton.setFont(new Font("Arial", Font.PLAIN, 16));
+        searchFlightsButton.setBackground(new Color(30, 144, 255));
+        searchFlightsButton.setForeground(Color.WHITE);
+        searchFlightsButton.setFocusPainted(false);
+        searchFlightsButton.addActionListener(e -> {
+            // Hide the main frame
+            setVisible(false);
+
+            // Show the flight search frame
+            if (flightSearchFrame == null) {
+                flightSearchFrame = new SearchCountryFrame();
+                flightSearchFrame.setVisible(true);
+            } else {
+                flightSearchFrame.setVisible(true);
+            }
+        });
+        mainPanel.add(searchFlightsButton, BorderLayout.SOUTH);
+
+        // Adding main panel to the frame
+        add(mainPanel);
+
+        // Center the frame on the screen
+        setLocationRelativeTo(null);
+    }
+
+    private ImageIcon scaleImageIcon(ImageIcon icon, int width, int height) {
+        Image img = icon.getImage();
+        Image scaledImg = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        return new ImageIcon(scaledImg);
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            MainFrame frame = new MainFrame();
+            frame.setVisible(true);
+        });
+    }
+}
+
+
+COUNTRY SEARCH FRAME
+/**
+ * Program Description: COUNTRY SEARCH FRAME
+ * Programmer: Haani 
+ * Date: 19/04/2024
+ */
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class SearchCountryFrame extends JFrame {
+
+    public SearchCountryFrame() {
+        setTitle("Search for Country");
+        setSize(800, 600);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        initComponents();
+        setLocationRelativeTo(null);
+    }
+
+    private void initComponents() {
+        JPanel mainPanel = new JPanel(new GridLayout(0, 1, 0, 9)); // Vertical layout with 5px vertical spacing
+
+        // Header Title
+        JLabel headerLabel = new JLabel("CHOOSE YOUR DESTINATION", JLabel.CENTER);
+        headerLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        mainPanel.add(headerLabel);
+
+        // Create image icons for each country
+        ImageIcon melbourneIcon = getBannerImage("Melbourne, Australia");
+        ImageIcon kualaLumpurIcon = getBannerImage("Kuala Lumpur, Malaysia");
+        ImageIcon amsterdamIcon = getBannerImage("Amsterdam, Netherlands");
+        ImageIcon lasVegasIcon = getBannerImage("Las Vegas, USA");
+        ImageIcon londonIcon = getBannerImage("London, England");
+
+        // Resize the icons to fit the frame
+        int iconWidth = getWidth(); // Use the width of the frame
+        int iconHeight = getHeight() / 9; // Divide the height of the frame by 5 for each country
+        Image melbourneImage = melbourneIcon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH);
+        Image kualaLumpurImage = kualaLumpurIcon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH);
+        Image amsterdamImage = amsterdamIcon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH);
+        Image lasVegasImage = lasVegasIcon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH);
+        Image londonImage = londonIcon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH);
+
+        ImageIcon melbourneResizedIcon = new ImageIcon(melbourneImage);
+        ImageIcon kualaLumpurResizedIcon = new ImageIcon(kualaLumpurImage);
+        ImageIcon amsterdamResizedIcon = new ImageIcon(amsterdamImage);
+        ImageIcon lasVegasResizedIcon = new ImageIcon(lasVegasImage);
+        ImageIcon londonResizedIcon = new ImageIcon(londonImage);
+
+        // Create custom panels for each country button
+        JPanel melbournePanel = createCountryPanel(melbourneResizedIcon, "Melbourne, Australia");
+        JPanel kualaLumpurPanel = createCountryPanel(kualaLumpurResizedIcon, "Kuala Lumpur, Malaysia");
+        JPanel amsterdamPanel = createCountryPanel(amsterdamResizedIcon, "Amsterdam, Netherlands");
+        JPanel lasVegasPanel = createCountryPanel(lasVegasResizedIcon, "Las Vegas, USA");
+        JPanel londonPanel = createCountryPanel(londonResizedIcon, "London, England");
+
+        // Add country panels to the main panel
+        mainPanel.add(melbournePanel);
+        mainPanel.add(kualaLumpurPanel);
+        mainPanel.add(amsterdamPanel);
+        mainPanel.add(lasVegasPanel);
+        mainPanel.add(londonPanel);
+
+        add(mainPanel);
+    }
+
+    private ImageIcon getBannerImage(String country) {
+        // Map each country to its banner image path
+        String imagePath;
+        switch (country) {
+            case "Melbourne, Australia":
+                imagePath = "C:/Users/User/Desktop/UPTM/UPTM COURSE/NOTES SEM 2/OBJECT ORIENTED PROGRAMMING/JAVA BLUE J/eliseairline/image/SEARCH FLIGHTS FRAME/AUSTRALIA.jpg";
+                break;
+            case "Kuala Lumpur, Malaysia":
+                imagePath = "C:/Users/User/Desktop/UPTM/UPTM COURSE/NOTES SEM 2/OBJECT ORIENTED PROGRAMMING/JAVA BLUE J/eliseairline/image/SEARCH FLIGHTS FRAME/KUALA LUMPUR.jpg";
+                break;
+            case "Amsterdam, Netherlands":
+                imagePath = "C:/Users/User/Desktop/UPTM/UPTM COURSE/NOTES SEM 2/OBJECT ORIENTED PROGRAMMING/JAVA BLUE J/eliseairline/image/SEARCH FLIGHTS FRAME/AMSTERDAM.jpg";
+                break;
+            case "Las Vegas, USA":
+                imagePath = "C:/Users/User/Desktop/UPTM/UPTM COURSE/NOTES SEM 2/OBJECT ORIENTED PROGRAMMING/JAVA BLUE J/eliseairline/image/SEARCH FLIGHTS FRAME/AMERIKA.jpg";
+                break;
+            case "London, England":
+                imagePath = "C:/Users/User/Desktop/UPTM/UPTM COURSE/NOTES SEM 2/OBJECT ORIENTED PROGRAMMING/JAVA BLUE J/eliseairline/image/SEARCH FLIGHTS FRAME/LONDON.jpg";
+                break;
+            default:
+                // Return a default banner image path if the country is not recognized
+                imagePath = "path/to/default/banner.jpg";
+        }
+
+        // Load the image
+        ImageIcon originalIcon = new ImageIcon(imagePath);
+
+        // Scale the image to fit within the frame size (800x600) while preserving aspect ratio
+        int maxWidth = 800;
+        int maxHeight = 600;
+        int originalWidth = originalIcon.getIconWidth();
+        int originalHeight = originalIcon.getIconHeight();
+        int scaledWidth, scaledHeight;
+        double widthRatio = (double) maxWidth / originalWidth;
+        double heightRatio = (double) maxHeight / originalHeight;
+
+        // Use the smaller ratio to ensure the image fits within the frame
+        double scaleFactor = Math.min(widthRatio, heightRatio);
+        scaledWidth = (int) (originalWidth * scaleFactor);
+        scaledHeight = (int) (originalHeight * scaleFactor);
+
+        // Scale the image
+        Image scaledImage = originalIcon.getImage().getScaledInstance(scaledWidth, scaledHeight, Image.SCALE_SMOOTH);
+
+        // Return the scaled ImageIcon
+        return new ImageIcon(scaledImage);
+    }
+
+    private JPanel createCountryPanel(ImageIcon icon, String countryName) {
+        JPanel panel = new JPanel(new BorderLayout());
+        JButton button = new JButton(icon);
+        button.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    dispose();
+                    new SearchFlightsFrame(countryName).setVisible(true);
+                }
+            });
+        panel.add(button, BorderLayout.CENTER);
+        JLabel label = new JLabel(countryName, JLabel.CENTER);
+        panel.add(label, BorderLayout.SOUTH);
+        return panel;
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+                    SearchCountryFrame frame = new SearchCountryFrame();
+                    frame.setVisible(true);
+            });
+    }
+}
+
+SEARCH FLIGHTS FRAME
+/**
+ * Program Description: SEARCH FLIGHTS FRAME
+ * Programmer: Haani 
+ * Date: 19/04/2024
+ */
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class SearchFlightsFrame extends JFrame {
+    private String selectedCountry;
+    private JComboBox<String> comboBoxMonth;
+    private JComboBox<String> comboBoxYear;
+    private JComboBox<String> comboBoxDay;
+    private JComboBox<String> comboBoxTime;
+    private JComboBox<Integer> adultComboBox;
+    private JComboBox<Integer> childComboBox;
+    private JComboBox<Integer> infantComboBox;
+    private JLabel bannerLabel; // Label to display the banner image
+
+    public SearchFlightsFrame(String selectedCountry) {
+        this.selectedCountry = selectedCountry;
+        setTitle("Search for Flights");
+        setSize(800, 600);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        initComponents();
+        setLocationRelativeTo(null);
+    }
+
+    private void initComponents() {
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+
+        // Set banner image
+        ImageIcon bannerImage = getBannerImage(selectedCountry);
+        if (bannerImage != null) {
+            bannerLabel = new JLabel(bannerImage);
+            bannerLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+            mainPanel.add(bannerLabel);
+        }
+
+        // Header Title
+        JLabel titleLabel = new JLabel("CLARIFICATION AVAILABILITY FLIGHT", JLabel.CENTER);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        mainPanel.add(Box.createVerticalGlue()); // Add vertical glue to center-align components
+        mainPanel.add(titleLabel);
+
+        // Selected Country
+        JLabel countryLabel = new JLabel("Selected Country: " + selectedCountry);
+        countryLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        mainPanel.add(countryLabel);
+
+        // Combo Boxes
+        JPanel comboBoxPanel = new JPanel();
+        comboBoxMonth = new JComboBox<>(new String[]{"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"});
+        comboBoxYear = new JComboBox<>(new String[]{"2022", "2023", "2024", "2025", "2026"});
+        comboBoxDay = new JComboBox<>(new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"});
+        comboBoxTime = new JComboBox<>(new String[]{"Morning", "Afternoon", "Evening"});
+        comboBoxPanel.add(comboBoxMonth);
+        comboBoxPanel.add(comboBoxDay);
+        comboBoxPanel.add(comboBoxYear);
+        comboBoxPanel.add(comboBoxTime);
+        comboBoxPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        mainPanel.add(comboBoxPanel);
+
+        // Select Class and Passengers Section
+        JPanel classPassengersPanel = new JPanel();
+        classPassengersPanel.setLayout(new BoxLayout(classPassengersPanel, BoxLayout.Y_AXIS));
+
+        // Select Class Panel
+        JPanel classPanel = new JPanel();
+        JLabel classLabel = new JLabel("Select Class:");
+        JComboBox<String> classComboBox = new JComboBox<>(new String[]{"Economy", "Business", "First"});
+        classPanel.add(classLabel);
+        classPanel.add(classComboBox);
+        classPassengersPanel.add(classPanel);
+
+        // Passengers Panel
+        JPanel passengersPanel = new JPanel();
+        passengersPanel.setLayout(new FlowLayout());
+
+        JLabel adultLabel = new JLabel("Adults:");
+        adultComboBox = new JComboBox<>(new Integer[]{0, 1, 2, 3, 4, 5});
+
+        JLabel childLabel = new JLabel("Children:");
+        childComboBox = new JComboBox<>(new Integer[]{0, 1, 2, 3, 4, 5});
+
+        JLabel infantLabel = new JLabel("Infants:");
+        infantComboBox = new JComboBox<>(new Integer[]{0, 1, 2, 3, 4, 5});
+
+        passengersPanel.add(adultLabel);
+        passengersPanel.add(adultComboBox);
+        passengersPanel.add(childLabel);
+        passengersPanel.add(childComboBox);
+        passengersPanel.add(infantLabel);
+        passengersPanel.add(infantComboBox);
+        classPassengersPanel.add(passengersPanel);
+
+        mainPanel.add(classPassengersPanel);
+
+        // Search Flights Button
+        JButton searchButton = new JButton("Search Flights");
+        searchButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        searchButton.setBackground(new Color(30, 144, 255));
+        searchButton.setForeground(Color.WHITE);
+        searchButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    int adults = (int) adultComboBox.getSelectedItem();
+                    int children = (int) childComboBox.getSelectedItem();
+                    int infants = (int) infantComboBox.getSelectedItem();
+
+                    if (adults == 0 && children == 0 && infants == 0) {
+                        JOptionPane.showMessageDialog(SearchFlightsFrame.this,
+                            "Please select at least one passenger.",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+
+                    if (infants > 0 && adults == 0) {
+                        JOptionPane.showMessageDialog(SearchFlightsFrame.this,
+                            "You must select at least one adult when booking with infants.",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+
+                    String selectedClass = (String) classComboBox.getSelectedItem();
+
+                    // Create a new SeatSelectionFrame passing the total number of passengers
+                    SeatSelectionFrame seatSelectionFrame = new SeatSelectionFrame(adults + children + infants, adults, children, infants, selectedClass);
+                    seatSelectionFrame.setVisible(true);
+                    seatSelectionFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+                            @Override
+                            public void windowClosed(java.awt.event.WindowEvent windowEvent) {
+                                // After seat selection is done, show the receipt
+                                double totalPrice = seatSelectionFrame.getTotalPrice();
+                                String receipt = generateReceipt(adults, children, infants, selectedClass, totalPrice);
+                                JOptionPane.showMessageDialog(SearchFlightsFrame.this, receipt, "Receipt", JOptionPane.INFORMATION_MESSAGE);
+                            }
+                        });
+                }
+            });
+        mainPanel.add(searchButton);
+
+        mainPanel.add(Box.createVerticalGlue()); // Add vertical glue to center-align components
+
+        add(mainPanel);
+    }
+
+    // Generate receipt message based on selected options and total price
+    private String generateReceipt(int adults, int children, int infants, String selectedClass, double totalPrice) {
+        StringBuilder receipt = new StringBuilder();
+        receipt.append("Receipt:\n");
+        receipt.append("Number of Adults: ").append(adults).append("\n");
+        receipt.append("Number of Children: ").append(children).append("\n");
+        receipt.append("Number of Infants: ").append(infants).append("\n");
+        receipt.append("Class: ").append(selectedClass).append("\n");
+        receipt.append("Total Price: $").append(String.format("%.2f", totalPrice));
+        return receipt.toString();
+    }
+
+    // Method to get the banner image based on the selected country
+    private ImageIcon getBannerImage(String country) {
+        String imagePath;
+        switch (country) {
+            case "Melbourne, Australia":
+                imagePath = "C:/Users/User/Desktop/UPTM/UPTM COURSE/NOTES SEM 2/OBJECT ORIENTED PROGRAMMING/JAVA BLUE J/eliseairline/image/SEARCH FLIGHTS FRAME/AUSTRALIA.jpg";
+                break;
+            case "Kuala Lumpur, Malaysia":
+                imagePath = "C:/Users/User/Desktop/UPTM/UPTM COURSE/NOTES SEM 2/OBJECT ORIENTED PROGRAMMING/JAVA BLUE J/eliseairline/image/SEARCH FLIGHTS FRAME/KUALA LUMPUR.jpg";
+                break;
+            case "Amsterdam, Netherlands":
+                imagePath = "C:/Users/User/Desktop/UPTM/UPTM COURSE/NOTES SEM 2/OBJECT ORIENTED PROGRAMMING/JAVA BLUE J/eliseairline/image/SEARCH FLIGHTS FRAME/AMSTERDAM.jpg";
+                break;
+            case "Las Vegas, USA":
+                imagePath = "C:/Users/User/Desktop/UPTM/UPTM COURSE/NOTES SEM 2/OBJECT ORIENTED PROGRAMMING/JAVA BLUE J/eliseairline/image/SEARCH FLIGHTS FRAME/AMERIKA.jpg";
+                break;
+            case "London, England":
+                imagePath = "C:/Users/User/Desktop/UPTM/UPTM COURSE/NOTES SEM 2/OBJECT ORIENTED PROGRAMMING/JAVA BLUE J/eliseairline/image/SEARCH FLIGHTS FRAME/LONDON.jpg";
+                break;
+            default:
+                // Return a default banner image path if the country is not recognized
+                imagePath = "path/to/default/banner.jpg";
+        }
+
+        try {
+            // Load the image
+            ImageIcon originalIcon = new ImageIcon(imagePath);
+
+            // Scale the image to fit within the frame size (800x600) while preserving aspect ratio
+            int maxWidth = 800;
+            int maxHeight = 600;
+            int originalWidth = originalIcon.getIconWidth();
+            int originalHeight = originalIcon.getIconHeight();
+            int scaledWidth, scaledHeight;
+            double widthRatio = (double) maxWidth / originalWidth;
+            double heightRatio = (double) maxHeight / originalHeight;
+
+            // Use the smaller ratio to ensure the image fits within the frame
+            double scaleFactor = Math.min(widthRatio, heightRatio);
+            scaledWidth = (int) (originalWidth * scaleFactor);
+            scaledHeight = (int) (originalHeight * scaleFactor);
+
+            // Scale the image
+            Image scaledImage = originalIcon.getImage().getScaledInstance(scaledWidth, scaledHeight, Image.SCALE_SMOOTH);
+
+            return new ImageIcon(scaledImage);
+        } catch (Exception e) {
+            // Print the error message if image loading fails
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            SearchFlightsFrame frame = new SearchFlightsFrame("Selected Country");
+            frame.setVisible(true);
+        });
+    }
+}
+
+SEAT SELECTION FRAME
+/**
+ * Program Description: SEAT SELECTION FRAME
+ * Programmer: Haani 
+ * Date: 19/04/2024
+ */
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.Random;
+
+public class SeatSelectionFrame extends JFrame {
+    private int totalPassengers;
+    private int selectedSeats = 0; // Track the number of selected seats
+    private JLabel[] seatLabels;
+    private boolean[] seatAvailability;
+
+    // Store selected options
+    private int adults;
+    private int children;
+    private int infants;
+    private String selectedClass;
+
+    public SeatSelectionFrame(int totalPassengers, int adults, int children, int infants, String selectedClass) {
+        this.totalPassengers = totalPassengers;
+        this.adults = adults;
+        this.children = children;
+        this.infants = infants;
+        this.selectedClass = selectedClass;
+
+        setTitle("Seat Selection");
+        setSize(800, 600);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        initComponents();
+        setLocationRelativeTo(null);
+    }
+
+    private void initComponents() {
+        JPanel mainPanel = new JPanel(new BorderLayout());
+
+        // Header Title
+        JLabel titleLabel = new JLabel("PLEASE CHOOSE YOUR SEATS", JLabel.CENTER);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        mainPanel.add(titleLabel, BorderLayout.NORTH);
+
+        // Seat Map Panel
+        JPanel seatMapPanel = new JPanel(new GridLayout(5, 6, 5, 5)); // Example 5 rows and 6 columns
+        seatLabels = new JLabel[30]; // Example: 30 seats
+        seatAvailability = new boolean[30]; // Example: Assuming all seats are available initially
+
+        char rowIdentifier = 'A'; // Start with row A
+        for (int i = 0; i < seatLabels.length; i++) {
+            String seatIdentifier = rowIdentifier + String.valueOf(i % 6 + 1); // Generate seat identifier like A1, A2, A3, ...
+            seatLabels[i] = new JLabel(seatIdentifier, JLabel.CENTER);
+            seatLabels[i].setOpaque(true);
+            seatLabels[i].setBackground(Color.GREEN); // Green indicates available seat
+            seatLabels[i].setBorder(BorderFactory.createLineBorder(Color.BLACK));
+            seatLabels[i].setFont(new Font("Arial", Font.BOLD, 12));
+
+            // Add mouse listener to handle seat clicks
+            final int seatIndex = i;
+            seatLabels[i].addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        toggleSeatAvailability(seatIndex);
+                    }
+                });
+
+            seatMapPanel.add(seatLabels[i]);
+
+            // Change row identifier after every 6 seats
+            if ((i + 1) % 6 == 0) {
+                rowIdentifier++;
+            }
+        }
+
+        mainPanel.add(seatMapPanel, BorderLayout.CENTER);
+
+        // Button Panel
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+
+        JButton totalButton = new JButton("Total Price");
+        totalButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    double totalPrice = getTotalPrice();
+                    JOptionPane.showMessageDialog(SeatSelectionFrame.this,
+                        "Total Price: $" + String.format("%.2f", totalPrice),
+                        "Total Price", JOptionPane.INFORMATION_MESSAGE);
+                }
+            });
+        buttonPanel.add(totalButton);
+
+        JButton confirmButton = new JButton("Confirm");
+        confirmButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    // Check if all seats are selected
+                    if (selectedSeats < totalPassengers) {
+                        JOptionPane.showMessageDialog(SeatSelectionFrame.this,
+                            "Please select seats for all passengers.",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                        return; // Stop further execution
+                    }
+
+                    // Display receipt confirmation dialog
+                    int confirmResult = JOptionPane.showConfirmDialog(SeatSelectionFrame.this,
+                            "Confirm your seat selection and proceed to personal information?",
+                            "Confirmation", JOptionPane.YES_NO_OPTION);
+
+                    if (confirmResult == JOptionPane.YES_OPTION) {
+                        // Hide current frame
+                        setVisible(false);
+                        // Create and display PersonalInformation frame
+                        PersonalInformation personalInformation = new PersonalInformation();
+                        personalInformation.collectInformation(SeatSelectionFrame.this);
+                    }
+                }
+            });
+        buttonPanel.add(confirmButton);
+
+        mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+        add(mainPanel);
+    }
+
+    // Method to toggle seat availability when clicked
+    private void toggleSeatAvailability(int seatIndex) {
+        if (seatAvailability[seatIndex]) {
+            seatLabels[seatIndex].setBackground(Color.GREEN); // Green indicates available seat
+            seatAvailability[seatIndex] = false; // Mark seat as available
+            selectedSeats--; // Decrement selected seats count
+        } else {
+            if (selectedSeats < totalPassengers) {
+                seatLabels[seatIndex].setBackground(Color.RED); // Red indicates selected seat
+                seatAvailability[seatIndex] = true; // Mark seat as selected
+                selectedSeats++; // Increment selected seats count
+            } else {
+                JOptionPane.showMessageDialog(this, "You have already selected the maximum number of seats.");
+            }
+        }
+    }
+
+    // Utility class for generating receipt
+    public static class ReceiptGenerator {
+        public static String generateReceipt(int adults, int children, int infants, String selectedClass, double totalPrice) {
+            // Calculate total cost for each passenger category
+            double totalAdultCost = adults * calculateTicketPrice(selectedClass, "adult");
+            double totalChildCost = children * calculateTicketPrice(selectedClass, "child");
+            double totalInfantCost = infants * calculateTicketPrice(selectedClass, "infant");
+
+            // Generate the receipt message
+            StringBuilder receipt = new StringBuilder();
+            receipt.append("Receipt:\n");
+            receipt.append("Number of Adults: ").append(adults).append("\n");
+            receipt.append("Number of Children: ").append(children).append("\n");
+            receipt.append("Number of Infants: ").append(infants).append("\n");
+            receipt.append("Class: ").append(selectedClass).append("\n");
+            receipt.append("Total Price: $").append(String.format("%.2f", totalPrice)).append("\n");
+
+            // Append total cost for each passenger category to the receipt
+            receipt.append("Total Cost for Adults: $").append(String.format("%.2f", totalAdultCost)).append("\n");
+            receipt.append("Total Cost for Children: $").append(String.format("%.2f", totalChildCost)).append("\n");
+            receipt.append("Total Cost for Infants: $").append(String.format("%.2f", totalInfantCost)).append("\n");
+
+            // Return the receipt as a string
+            return receipt.toString();
+        }
+
+        // Method to calculate ticket price based on the class and passenger type
+        private static double calculateTicketPrice(String selectedClass, String passengerType) {
+            // Define ticket prices for different classes and passenger types
+            // You can adjust these prices according to your requirements
+            double economyPriceAdult = 100.0;
+            double economyPriceChild = 50.0;
+            double economyPriceInfant = 20.0;
+
+            double businessPriceAdult = 200.0;
+            double businessPriceChild = 100.0;
+            double businessPriceInfant = 40.0;
+
+            double firstClassPriceAdult = 300.0;
+            double firstClassPriceChild = 150.0;
+            double firstClassPriceInfant = 60.0;
+
+            // Determine ticket price based on the selected class and passenger type
+            switch (selectedClass.toLowerCase()) {
+                case "economy":
+                    return switch (passengerType.toLowerCase()) {
+                        case "adult" -> economyPriceAdult;
+                        case "child" -> economyPriceChild;
+                        case "infant" -> economyPriceInfant;
+                        default -> 0.0;
+                    };
+                case "business":
+                    return switch (passengerType.toLowerCase()) {
+                        case "adult" -> businessPriceAdult;
+                        case "child" -> businessPriceChild;
+                        case "infant" -> businessPriceInfant;
+                        default -> 0.0;
+                    };
+                case "first":
+                    return switch (passengerType.toLowerCase()) {
+                        case "adult" -> firstClassPriceAdult;
+                        case "child" -> firstClassPriceChild;
+                        case "infant" -> firstClassPriceInfant;
+                        default -> 0.0;
+                    };
+                default:
+                    return 0.0; // Return 0 if the class is not recognized
+            }
+        }
+    }
+
+    public double getTotalPrice() {
+        // For demonstration purposes, let's assume a random price between 1000 and 9999
+        Random random = new Random();
+        double price = random.nextDouble() * (9999 - 1000) + 1000;
+        return price;
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+                    SeatSelectionFrame frame = new SeatSelectionFrame(3, 2, 1, 0, "Economy"); // Example: 3 total passengers, 2 adults, 1 child, 0 infants, Economy class
+                    frame.setVisible(true);
+            });
+    }
+}
