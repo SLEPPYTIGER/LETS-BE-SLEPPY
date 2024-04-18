@@ -14,22 +14,16 @@ public class MainFrame extends JFrame {
 
     public MainFrame() {
         setTitle("Reservation/Booking System");
-        setSize(800, 600);
+        setSize(1080, 499);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Create a JPanel to hold the welcome message and logo
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
 
-        // Welcome Message
-        JLabel welcomeLabel = new JLabel("Welcome to Our Reservation System");
-        welcomeLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        welcomeLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        mainPanel.add(welcomeLabel, BorderLayout.NORTH);
-
         // Logo Picture
-        ImageIcon logoIcon = new ImageIcon("C:/Users/User/Desktop/UPTM/UPTM COURSE/NOTES SEM 2/OBJECT ORIENTED PROGRAMMING/JAVA BLUE J/eliseairline/image/ticket.JPG");
-        ImageIcon scaledLogoIcon = scaleImageIcon(logoIcon, 800, 600); // Scale the logo to fit a 400x400 area
+        ImageIcon logoIcon = new ImageIcon("C:/Users/User/Desktop/UPTM/UPTM COURSE/NOTES SEM 2/OBJECT ORIENTED PROGRAMMING/JAVA BLUE J/EliseAirline/image/ticket.JPG");
+        ImageIcon scaledLogoIcon = scaleImageIcon(logoIcon, 1080, 399); // Scale the logo to fit a 400x400 area
         JLabel logoLabel = new JLabel(scaledLogoIcon);
         logoLabel.setHorizontalAlignment(SwingConstants.CENTER);
         mainPanel.add(logoLabel, BorderLayout.CENTER);
@@ -74,7 +68,6 @@ public class MainFrame extends JFrame {
         });
     }
 }
-
 
 COUNTRY SEARCH FRAME
 /**
@@ -150,19 +143,19 @@ public class SearchCountryFrame extends JFrame {
         String imagePath;
         switch (country) {
             case "Melbourne, Australia":
-                imagePath = "C:/Users/User/Desktop/UPTM/UPTM COURSE/NOTES SEM 2/OBJECT ORIENTED PROGRAMMING/JAVA BLUE J/eliseairline/image/SEARCH FLIGHTS FRAME/AUSTRALIA.jpg";
+                imagePath = "C:/Users/User/Desktop/UPTM/UPTM COURSE/NOTES SEM 2/OBJECT ORIENTED PROGRAMMING/JAVA BLUE J/EliseAirline/image/SEARCH FLIGHTS FRAME/AUSTRALIA.jpg";
                 break;
             case "Kuala Lumpur, Malaysia":
-                imagePath = "C:/Users/User/Desktop/UPTM/UPTM COURSE/NOTES SEM 2/OBJECT ORIENTED PROGRAMMING/JAVA BLUE J/eliseairline/image/SEARCH FLIGHTS FRAME/KUALA LUMPUR.jpg";
+                imagePath = "C:/Users/User/Desktop/UPTM/UPTM COURSE/NOTES SEM 2/OBJECT ORIENTED PROGRAMMING/JAVA BLUE J/EliseAirline/image/SEARCH FLIGHTS FRAME/KUALA LUMPUR.jpg";
                 break;
             case "Amsterdam, Netherlands":
-                imagePath = "C:/Users/User/Desktop/UPTM/UPTM COURSE/NOTES SEM 2/OBJECT ORIENTED PROGRAMMING/JAVA BLUE J/eliseairline/image/SEARCH FLIGHTS FRAME/AMSTERDAM.jpg";
+                imagePath = "C:/Users/User/Desktop/UPTM/UPTM COURSE/NOTES SEM 2/OBJECT ORIENTED PROGRAMMING/JAVA BLUE J/EliseAirline/image/SEARCH FLIGHTS FRAME/AMSTERDAM.jpg";
                 break;
             case "Las Vegas, USA":
-                imagePath = "C:/Users/User/Desktop/UPTM/UPTM COURSE/NOTES SEM 2/OBJECT ORIENTED PROGRAMMING/JAVA BLUE J/eliseairline/image/SEARCH FLIGHTS FRAME/AMERIKA.jpg";
+                imagePath = "C:/Users/User/Desktop/UPTM/UPTM COURSE/NOTES SEM 2/OBJECT ORIENTED PROGRAMMING/JAVA BLUE J/EliseAirline/image/SEARCH FLIGHTS FRAME/AMERIKA.jpg";
                 break;
             case "London, England":
-                imagePath = "C:/Users/User/Desktop/UPTM/UPTM COURSE/NOTES SEM 2/OBJECT ORIENTED PROGRAMMING/JAVA BLUE J/eliseairline/image/SEARCH FLIGHTS FRAME/LONDON.jpg";
+                imagePath = "C:/Users/User/Desktop/UPTM/UPTM COURSE/NOTES SEM 2/OBJECT ORIENTED PROGRAMMING/JAVA BLUE J/EliseAirline/image/SEARCH FLIGHTS FRAME/LONDON.jpg";
                 break;
             default:
                 // Return a default banner image path if the country is not recognized
@@ -387,19 +380,19 @@ public class SearchFlightsFrame extends JFrame {
         String imagePath;
         switch (country) {
             case "Melbourne, Australia":
-                imagePath = "C:/Users/User/Desktop/UPTM/UPTM COURSE/NOTES SEM 2/OBJECT ORIENTED PROGRAMMING/JAVA BLUE J/eliseairline/image/SEARCH FLIGHTS FRAME/AUSTRALIA.jpg";
+                imagePath = "C:/Users/User/Desktop/UPTM/UPTM COURSE/NOTES SEM 2/OBJECT ORIENTED PROGRAMMING/JAVA BLUE J/EliseAirline/image/SEARCH FLIGHTS FRAME/AUSTRALIA.jpg";
                 break;
             case "Kuala Lumpur, Malaysia":
-                imagePath = "C:/Users/User/Desktop/UPTM/UPTM COURSE/NOTES SEM 2/OBJECT ORIENTED PROGRAMMING/JAVA BLUE J/eliseairline/image/SEARCH FLIGHTS FRAME/KUALA LUMPUR.jpg";
+                imagePath = "C:/Users/User/Desktop/UPTM/UPTM COURSE/NOTES SEM 2/OBJECT ORIENTED PROGRAMMING/JAVA BLUE J/EliseAirline/image/SEARCH FLIGHTS FRAME/KUALA LUMPUR.jpg";
                 break;
             case "Amsterdam, Netherlands":
-                imagePath = "C:/Users/User/Desktop/UPTM/UPTM COURSE/NOTES SEM 2/OBJECT ORIENTED PROGRAMMING/JAVA BLUE J/eliseairline/image/SEARCH FLIGHTS FRAME/AMSTERDAM.jpg";
+                imagePath = "C:/Users/User/Desktop/UPTM/UPTM COURSE/NOTES SEM 2/OBJECT ORIENTED PROGRAMMING/JAVA BLUE J/EliseAirline/image/SEARCH FLIGHTS FRAME/AMSTERDAM.jpg";
                 break;
             case "Las Vegas, USA":
-                imagePath = "C:/Users/User/Desktop/UPTM/UPTM COURSE/NOTES SEM 2/OBJECT ORIENTED PROGRAMMING/JAVA BLUE J/eliseairline/image/SEARCH FLIGHTS FRAME/AMERIKA.jpg";
+                imagePath = "C:/Users/User/Desktop/UPTM/UPTM COURSE/NOTES SEM 2/OBJECT ORIENTED PROGRAMMING/JAVA BLUE J/EliseAirline/image/SEARCH FLIGHTS FRAME/AMERIKA.jpg";
                 break;
             case "London, England":
-                imagePath = "C:/Users/User/Desktop/UPTM/UPTM COURSE/NOTES SEM 2/OBJECT ORIENTED PROGRAMMING/JAVA BLUE J/eliseairline/image/SEARCH FLIGHTS FRAME/LONDON.jpg";
+                imagePath = "C:/Users/User/Desktop/UPTM/UPTM COURSE/NOTES SEM 2/OBJECT ORIENTED PROGRAMMING/JAVA BLUE J/EliseAirline/image/SEARCH FLIGHTS FRAME/LONDON.jpg";
                 break;
             default:
                 // Return a default banner image path if the country is not recognized
@@ -442,6 +435,7 @@ public class SearchFlightsFrame extends JFrame {
         });
     }
 }
+
 
 SEAT SELECTION FRAME
 /**
@@ -662,7 +656,6 @@ public class SeatSelectionFrame extends JFrame {
     }
 
     public double getTotalPrice() {
-        // For demonstration purposes, let's assume a random price between 1000 and 9999
         Random random = new Random();
         double price = random.nextDouble() * (9999 - 1000) + 1000;
         return price;
@@ -673,5 +666,433 @@ public class SeatSelectionFrame extends JFrame {
                     SeatSelectionFrame frame = new SeatSelectionFrame(3, 2, 1, 0, "Economy"); // Example: 3 total passengers, 2 adults, 1 child, 0 infants, Economy class
                     frame.setVisible(true);
             });
+    }
+}
+
+PERSONAL INFORMATION FRAME
+/**
+ * Program Description: PERSONAL INFORMATION 
+ * Programmer: SIMON 
+ * Date: 19/04/2024
+ */
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+public class PersonalInformation {
+    private String firstName;
+    private String middleName;
+    private String lastName;
+    private String email;
+    private String confirmEmail;
+    private String countryName;
+    private String phoneNumber;
+
+    public void collectInformation(JFrame frame) {
+        JPanel panel = new JPanel(new GridLayout(8, 2));
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        // First Name
+        JLabel firstNameLabel = new JLabel("First Name:");
+        JTextField firstNameField = new JTextField(20);
+        panel.add(firstNameLabel);
+        panel.add(firstNameField);
+
+        // Middle Name
+        JLabel middleNameLabel = new JLabel("Middle Name:");
+        JTextField middleNameField = new JTextField(20);
+        panel.add(middleNameLabel);
+        panel.add(middleNameField);
+
+        // Last Name
+        JLabel lastNameLabel = new JLabel("Last Name:");
+        JTextField lastNameField = new JTextField(20);
+        panel.add(lastNameLabel);
+        panel.add(lastNameField);
+
+        // Email
+        JLabel emailLabel = new JLabel("Email:");
+        JTextField emailField = new JTextField(20);
+        panel.add(emailLabel);
+        panel.add(emailField);
+
+        // Confirm Email
+        JLabel confirmEmailLabel = new JLabel("Confirm Email:");
+        JTextField confirmEmailField = new JTextField(20);
+        panel.add(confirmEmailLabel);
+        panel.add(confirmEmailField);
+
+        // Country Name
+        JLabel countryLabel = new JLabel("Country Name:");
+        JTextField countryField = new JTextField(20);
+        panel.add(countryLabel);
+        panel.add(countryField);
+
+        // Phone Number
+        JLabel phoneLabel = new JLabel("Phone Number:");
+        JTextField phoneField = new JTextField(20);
+        panel.add(phoneLabel);
+        panel.add(phoneField);
+
+        // Flights Food Button
+        JButton flightsFoodButton = new JButton("Flights Food");
+        flightsFoodButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    // Hide current frame
+                    frame.setVisible(false);
+                    // Create and display MenuFrame
+                    MenuFrame menuFrame = new MenuFrame();
+                    menuFrame.setVisible(true);
+                }
+            });
+        panel.add(flightsFoodButton);
+
+        // Flights Lounge Button
+        JButton flightsLoungeButton = new JButton("Flights Lounge");
+        flightsLoungeButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    // Hide current frame
+                    frame.setVisible(false);
+                    // Create and display AirportLounge frame
+                    AirportLounge airportLounge = new AirportLounge();
+                    airportLounge.setVisible(true); // Add this line to make the AirportLounge frame visible
+                }
+            });
+        panel.add(flightsLoungeButton);
+
+        int result = JOptionPane.showConfirmDialog(frame, panel, "Personal Information", JOptionPane.OK_CANCEL_OPTION);
+        if (result == JOptionPane.OK_OPTION) {
+            firstName = firstNameField.getText();
+            middleName = middleNameField.getText();
+            lastName = lastNameField.getText();
+            email = emailField.getText();
+            confirmEmail = confirmEmailField.getText();
+            countryName = countryField.getText();
+            phoneNumber = phoneField.getText();
+
+            // Display receipt confirmation dialog
+            int confirmResult = JOptionPane.showConfirmDialog(frame,
+                "Confirm your personal information and proceed to payment?",
+                "Confirmation", JOptionPane.YES_NO_OPTION);
+
+            if (confirmResult == JOptionPane.YES_OPTION) {
+                // Generate receipt
+                String receipt = generateReceipt();
+
+                // Display receipt
+                JOptionPane.showMessageDialog(frame, receipt, "Receipt", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+    }
+
+    // Method to generate receipt message
+    private String generateReceipt() {
+        // Generate the receipt message
+        StringBuilder receipt = new StringBuilder();
+        receipt.append("Receipt:\n");
+        receipt.append("First Name: ").append(firstName).append("\n");
+        receipt.append("Middle Name: ").append(middleName).append("\n");
+        receipt.append("Last Name: ").append(lastName).append("\n");
+        receipt.append("Email: ").append(email).append("\n");
+        receipt.append("Country Name: ").append(countryName).append("\n");
+        receipt.append("Phone Number: ").append(phoneNumber).append("\n");
+        return receipt.toString();
+    }
+
+    public static void main(String[] args) {
+        PersonalInformation personalInformation = new PersonalInformation();
+        JFrame frame = new JFrame();
+        frame.setTitle("ELISE AIRLINES");
+        frame.setSize(500, 500);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+
+        personalInformation.collectInformation(frame);
+    }
+}
+
+MENU FRAME
+/**
+ * Program Description: MENU 
+ * Programmer: IRDINA 
+ * Date: 19/04/2024
+ */
+
+import javax.swing.*;
+import javax.swing.border.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.*;
+
+public class MenuFrame extends JFrame implements ActionListener {
+    private JLabel menuList1, menuList2, menuList3, menuList4, menuList5;
+    private JList<String> ldList, hmList, icList, pmList, bList;
+    private JButton skipLounge, skipDetails;
+    private JComboBox<Integer> ldCount, hmCount, icCount, pmCount, bCount;
+
+    private Map<String, JList<String>> menuLists;
+    private Map<String, JComboBox<Integer>> countComboBoxes;
+
+    public MenuFrame() {
+        super("ELISE AIRLINES");
+        Container cont = getContentPane();
+        cont.setLayout(new BorderLayout());
+
+        // Set up labels
+        menuList1 = new JLabel("Local Delights");
+        menuList2 = new JLabel("Healthy Meals");
+        menuList3 = new JLabel("International Cuisine");
+        menuList4 = new JLabel("Premium Meals");
+        menuList5 = new JLabel("Beverages");
+
+        // Set options for the menu category
+        ldList = new JList<>(new String[]{"Nasi Lemak (MYR10)", "Chicken Rice (MYR9)", "Pad Thai (MYR8)"});
+        hmList = new JList<>(new String[]{"Salads (MYR9)", "Grilled Chicken (MYR13)", "Fresh Fruit Platters (MYR15)"});
+        icList = new JList<>(new String[]{"Pasta (MYR20)", "Sushi (MYR25)", "Curry (MYR10)"});
+        pmList = new JList<>(new String[]{"Steak (MYR45)", "Seafood (MYR40)", "Champagne (MYR55)"});
+        bList = new JList<>(new String[]{"Soft Drinks (MYR5)", "Water (MYR3)", "Juice (MYR8)"});
+
+        // Set up buttons
+        skipLounge = new JButton("AIRPORT LOUNGE");
+        skipDetails = new JButton("OK");
+
+        // Set up JComboBox for tick and count for the number of items
+        Integer[] counts = {0, 1, 2, 3, 4, 5};
+        ldCount = new JComboBox<>(counts);
+        hmCount = new JComboBox<>(counts);
+        icCount = new JComboBox<>(counts);
+        pmCount = new JComboBox<>(counts);
+        bCount = new JComboBox<>(counts);
+
+        // Initialize maps to store components
+        menuLists = new HashMap<>();
+        countComboBoxes = new HashMap<>();
+        menuLists.put("Local Delights", ldList);
+        menuLists.put("Healthy Meals", hmList);
+        menuLists.put("International Cuisine", icList);
+        menuLists.put("Premium Meals", pmList);
+        menuLists.put("Beverages", bList);
+        countComboBoxes.put("Local Delights", ldCount);
+        countComboBoxes.put("Healthy Meals", hmCount);
+        countComboBoxes.put("International Cuisine", icCount);
+        countComboBoxes.put("Premium Meals", pmCount);
+        countComboBoxes.put("Beverages", bCount);
+
+        // Set up JPanel1
+        JPanel pnlMenu = new JPanel(new GridLayout(5, 3));
+        pnlMenu.setBorder(new TitledBorder(new EtchedBorder(), "Menu (Optional)"));
+
+        // Add everything to pnlMenu
+        pnlMenu.add(menuList1);
+        pnlMenu.add(new JScrollPane(ldList));
+        pnlMenu.add(ldCount);
+        pnlMenu.add(menuList2);
+        pnlMenu.add(new JScrollPane(hmList));
+        pnlMenu.add(hmCount);
+        pnlMenu.add(menuList3);
+        pnlMenu.add(new JScrollPane(icList));
+        pnlMenu.add(icCount);
+        pnlMenu.add(menuList4);
+        pnlMenu.add(new JScrollPane(pmList));
+        pnlMenu.add(pmCount);
+        pnlMenu.add(menuList5);
+        pnlMenu.add(new JScrollPane(bList));
+        pnlMenu.add(bCount);
+
+        // Set up JPanel2
+        JPanel pnlSkip = new JPanel(new GridLayout(1, 2));
+        pnlSkip.setBorder(new TitledBorder(new EtchedBorder(), "Skip to: "));
+
+        // Add buttons to pnlSkip
+        pnlSkip.add(skipLounge);
+        pnlSkip.add(skipDetails);
+
+        // Add pnlMenu and pnlSkip to container
+        cont.add(pnlMenu, BorderLayout.CENTER);
+        cont.add(pnlSkip, BorderLayout.SOUTH);
+
+        // Register actionListener
+        skipLounge.addActionListener(this);
+        skipDetails.addActionListener(this);
+
+        // Set frame properties
+        setSize(800, 600);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                MenuFrame frame = new MenuFrame();
+                frame.setVisible(true);
+            }
+        });
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == skipLounge) {
+            // Hide current frame
+            this.setVisible(false);
+            // Create and display AirportLounge frame
+            AirportLounge airportLounge = new AirportLounge();
+            airportLounge.setVisible(true);
+        } else if (e.getSource() == skipDetails) {
+            // Handle clear button action
+            // Clear selections
+            for (JList<String> list : menuLists.values()) {
+                list.clearSelection();
+            }
+
+            // Reset JComboBoxes
+            for (JComboBox<Integer> comboBox : countComboBoxes.values()) {
+                comboBox.setSelectedIndex(0);
+            }
+
+            // Hide current frame
+            this.setVisible(false);
+            // Create and display Payment frame
+            Payment paymentFrame = new Payment();
+            paymentFrame.setVisible(true);
+        }
+    }
+
+    public Map<String, Integer> getSelectedMenuItems() {
+        Map<String, Integer> selectedItems = new HashMap<>();
+        for (String category : menuLists.keySet()) {
+            JList<String> list = menuLists.get(category);
+            JComboBox<Integer> comboBox = countComboBoxes.get(category);
+            int selectedIndex = list.getSelectedIndex();
+            int count = (Integer) comboBox.getSelectedItem();
+            if (selectedIndex != -1 && count > 0) {
+                String selectedItem = list.getModel().getElementAt(selectedIndex);
+                selectedItems.put(selectedItem, count);
+            }
+        }
+        return selectedItems;
+    }
+}
+
+PAYMENT FRAME
+/**
+ * Program Description: PAYMENT 
+ * Programmer: NABIHAH 
+ * Date: 19/04/2024
+ */
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.HashMap;
+
+public class Payment extends JFrame implements ActionListener {
+    private JComboBox<String> comboBoxCardType, comboBoxMonth, comboBoxYear;
+    private JTextField txtCardNumber, txtSecurityCode, txtCardholderName, txtEmail, txtCountryCode, txtPhoneNumber;
+
+    private String cardType;
+    private String cardNumber;
+    private String expiryDate;
+    private String securityCode;
+    private String cardholderName;
+    private String email;
+    private String countryCode;
+    private String phoneNumber;
+
+    public Payment() {
+        super("Payment");
+        Container cont = getContentPane();
+        cont.setLayout(new BorderLayout());
+
+        // Combo Boxes
+        comboBoxCardType = new JComboBox<>(new String[]{"Visa", "MasterCard"});
+        comboBoxMonth = new JComboBox<>(new String[]{"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"});
+        comboBoxYear = new JComboBox<>(new String[]{"2022", "2023", "2024", "2025", "2026"});
+
+        // Text Fields
+        txtCardNumber = new JTextField(20);
+        txtSecurityCode = new JTextField(5);
+        txtCardholderName = new JTextField(20);
+        txtEmail = new JTextField(20);
+        txtCountryCode = new JTextField(5);
+        txtPhoneNumber = new JTextField(10);
+
+        // Panel
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(10, 2));
+        panel.add(new JLabel("Card Type"));
+        panel.add(comboBoxCardType);
+        panel.add(new JLabel("Card Number"));
+        panel.add(txtCardNumber);
+        panel.add(new JLabel("Expiry Date"));
+        panel.add(comboBoxMonth);
+        panel.add(new JLabel("")); // Spacer
+        panel.add(comboBoxYear);
+        panel.add(new JLabel("Security Code"));
+        panel.add(txtSecurityCode);
+        panel.add(new JLabel("Contact Information"));
+        panel.add(new JLabel("")); // Spacer
+        panel.add(new JLabel("Cardholder's Name"));
+        panel.add(txtCardholderName);
+        panel.add(new JLabel("Email"));
+        panel.add(txtEmail);
+        panel.add(new JLabel("Country Code"));
+        panel.add(txtCountryCode);
+        panel.add(new JLabel("Phone Number"));
+        panel.add(txtPhoneNumber);
+
+        // Panel for button
+        JPanel pnlSkip = new JPanel();
+        pnlSkip.setLayout(new FlowLayout(FlowLayout.CENTER));
+        JButton skipDetails = new JButton("OK");
+        skipDetails.addActionListener(this);
+        pnlSkip.add(skipDetails);
+
+        // Add panels to content pane
+        getContentPane().add(panel, BorderLayout.CENTER);
+        getContentPane().add(pnlSkip, BorderLayout.SOUTH);
+
+        // Set frame properties
+        setSize(400, 400);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setVisible(true);
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        if (e.getActionCommand().equals("OK")) {
+            // Collect payment data
+            cardType = (String) comboBoxCardType.getSelectedItem();
+            cardNumber = txtCardNumber.getText();
+            expiryDate = comboBoxMonth.getSelectedItem() + " " + comboBoxYear.getSelectedItem();
+            securityCode = txtSecurityCode.getText();
+            cardholderName = txtCardholderName.getText();
+            email = txtEmail.getText();
+            countryCode = txtCountryCode.getText();
+            phoneNumber = txtPhoneNumber.getText();
+
+            // Display the ticket with all data
+            displayTicket();
+        }
+    }
+
+    private void displayTicket() {
+        // Generate the receipt message
+        StringBuilder receipt = new StringBuilder();
+        receipt.append("Receipt:\n");
+        receipt.append("Card Type: ").append(cardType).append("\n");
+        receipt.append("Card Number: ").append(cardNumber).append("\n");
+        receipt.append("Expiry Date: ").append(expiryDate).append("\n");
+        receipt.append("Security Code: ").append(securityCode).append("\n");
+        receipt.append("Cardholder's Name: ").append(cardholderName).append("\n");
+        receipt.append("Email: ").append(email).append("\n");
+        receipt.append("Country Code: ").append(countryCode).append("\n");
+        receipt.append("Phone Number: ").append(phoneNumber).append("\n");
+
+        // Display the receipt
+        JOptionPane.showMessageDialog(this,
+            receipt.toString(),
+            "Payment Receipt", JOptionPane.INFORMATION_MESSAGE);
     }
 }
