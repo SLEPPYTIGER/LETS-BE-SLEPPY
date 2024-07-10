@@ -1,0 +1,102 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class LoginFrame extends JFrame {
+
+    public LoginFrame() {
+        setTitle("Login");
+        setSize(1080, 499); 
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null); 
+
+        // Main panel to hold all components
+        JPanel mainPanel = new JPanel(new BorderLayout());
+        mainPanel.setBackground(Color.WHITE); 
+
+        // Panel for the large image (left)
+        ImageIcon icon = new ImageIcon("C:/Users/User/Desktop/UPTM/UPTM COURSE/NOTES SEM 3/DATA STRUCTUR/FINAL PROJECT FLORENTINO/OFFICIAL DESIGN/BTS/GROSSI FLORENTINO.jpg"); 
+        Image scaledImage = icon.getImage().getScaledInstance(700, 500, Image.SCALE_SMOOTH); 
+        ImageIcon scaledIcon = new ImageIcon(scaledImage);
+        JLabel imageLabel = new JLabel(scaledIcon);
+        JPanel imagePanel = new JPanel(new BorderLayout());
+        imagePanel.setBackground(Color.WHITE); 
+        imagePanel.add(imageLabel, BorderLayout.CENTER);
+        mainPanel.add(imagePanel, BorderLayout.WEST);
+
+        // Panel for logo and login components (center)
+        JPanel centerPanel = new JPanel(new GridBagLayout()); 
+        centerPanel.setBackground(Color.WHITE); 
+        centerPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); 
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 2;
+        gbc.insets = new Insets(0, 0, 10, 0); 
+
+        // Logo panel (aligned with username)
+        ImageIcon logoIcon = new ImageIcon("C:/Users/User/Desktop/UPTM/UPTM COURSE/NOTES SEM 3/DATA STRUCTUR/FINAL PROJECT FLORENTINO/OFFICIAL DESIGN/BTS/GROSSI VOLENTINO.jpeg"); 
+        Image scaledLogoImage = logoIcon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH); 
+        ImageIcon scaledLogoIcon = new ImageIcon(scaledLogoImage);
+        JLabel logoLabel = new JLabel(scaledLogoIcon);
+        JPanel logoPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        logoPanel.setBackground(Color.WHITE); 
+        logoPanel.add(logoLabel);
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.fill = GridBagConstraints.NONE;
+        centerPanel.add(logoPanel, gbc);
+
+        // Username label and field
+        gbc.gridy++;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        JLabel usernameLabel = new JLabel("Username:");
+        JTextField usernameField = new JTextField(20); 
+        centerPanel.add(usernameLabel, gbc);
+
+        gbc.gridy++;
+        centerPanel.add(usernameField, gbc);
+
+        // Password label and field
+        gbc.gridy++;
+        JLabel passwordLabel = new JLabel("Password:");
+        JPasswordField passwordField = new JPasswordField(20); 
+        centerPanel.add(passwordLabel, gbc);
+
+        gbc.gridy++;
+        centerPanel.add(passwordField, gbc);
+
+        // Panel for login button
+        gbc.gridy++;
+        gbc.gridwidth = 1;
+        gbc.anchor = GridBagConstraints.CENTER;
+        JButton loginButton = new JButton("Login");
+        loginButton.addActionListener(e -> {
+            // Perform login authentication 
+            String username = usernameField.getText();
+            String password = new String(passwordField.getPassword());
+            
+            if (username.equals("Official_Haani_Shahrul") && password.equals("2eee55d360")) {
+                JOptionPane.showMessageDialog(LoginFrame.this, "Login Successful!");
+                dispose(); // Dispose of the login frame
+                SwingUtilities.invokeLater(RestaurantManager::new); 
+            } else {
+                JOptionPane.showMessageDialog(LoginFrame.this, "Invalid username or password", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+        centerPanel.add(loginButton, gbc);
+
+        // Add center panel to main panel, centering it
+        mainPanel.add(centerPanel, BorderLayout.CENTER);
+
+        // Add main panel to frame and make it visible
+        add(mainPanel);
+        setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(LoginFrame::new);
+    }
+}
