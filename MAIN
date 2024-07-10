@@ -1,0 +1,79 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+        List<CustomerInformation> customerList = new ArrayList<>();
+        Queue queue = new Queue();
+        Queue counterQueue1 = new Queue(); 
+        Queue counterQueue2 = new Queue(); 
+        Queue counterQueue3 = new Queue(); 
+        Stack completeStack = new Stack<>();
+
+        try (BufferedReader br = new BufferedReader(new FileReader("customerList.txt"))) {
+            String line;
+            int counterNumber = 1; // Counter number initialization
+
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",");
+
+                // Check if the line is correctly formatted
+                if (data.length < 8) {
+                    System.err.println("Skipping line: " + line + " - Incorrect format");
+                    continue;
+                }
+
+                String custId = data[0].trim();
+                String custName = data[1].trim();
+                int tableNumber = Integer.parseInt(data[2].trim());
+                String orderId = data[3].trim();
+                String itemName = data[4].trim();
+                double itemPrice = Double.parseDouble(data[5].trim());
+                int quantity = Integer.parseInt(data[6].trim());
+                String orderTime = data[7].trim();
+
+                CustomerInformation customer = new CustomerInformation(custId, custName, tableNumber, counterNumber);
+                customer.addOrder(new OrderInformation(orderId, itemName, itemPrice, quantity, orderTime));
+                customerList.add(customer);
+                queue.enqueue(customer);
+
+                // Increment counter number for the next customer
+                counterNumber = (counterNumber % 3) + 1; // Cycle between 1, 2, 3
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        queue.distributeCustomers(counterQueue1, counterQueue2, counterQueue3);
+
+        // Process each counter queue
+        processOrders(counterQueue1, completeStack);
+        processOrders(counterQueue2, completeStack);
+        processOrders(counterQueue3, completeStack);
+
+        // Display completed orders from the stack
+        System.out.println("Completed Orders:");
+        while (!completeStack.isEmpty()) {
+            CustomerInformation customer = (CustomerInformation) completeStack.pop();
+            System.out.println(customer);
+            System.out.println("----------------------");
+        }
+    }
+
+    private static void processOrders(Queue counterQueue, Stack completeStack) {
+        while (!counterQueue.isEmpty()) {
+            int maxOrders = Math.min(counterQueue.size(), 5); // Process up to 5 orders at a time
+            for (int i = 0; i < maxOrders; i++) {
+                CustomerInformation customer = counterQueue.dequeue();
+                completeStack.push(customer);
+            }
+        }
+    }
+
+}
