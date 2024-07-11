@@ -1,0 +1,227 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+
+class CustomerInformation {
+    private String custId;
+    private String custName;
+    private int tableNumber;
+    private List<OrderInformation> orders;
+    private double totalPayment;
+    private int counterNumber; // Counter number for the customer
+    private int orderCount; // Variable to count orders
+
+    public CustomerInformation(String custId, String custName, int tableNumber, int counterNumber) {
+        this.custId = custId;
+        this.custName = custName;
+        this.tableNumber = tableNumber;
+        this.orders = new ArrayList<>();
+        this.totalPayment = 0.0;
+        this.counterNumber = counterNumber;
+        this.orderCount = 0; // Initialize order count to 0
+    }
+
+    public void addOrder(OrderInformation order) {
+        orders.add(order);
+        totalPayment += order.getItemPrice() * order.getQuantity();
+        incrementOrderCount(); // Increment order count when adding an order
+    }
+
+    public List<OrderInformation> getOrders() {
+        return orders;
+    }
+
+    public double calculateTotalPayment() {
+        double total = 0.0;
+        for (OrderInformation order : orders) {
+            total += order.getItemPrice(); // Assuming OrderInformation has a method getTotalPrice() to get the price of each order
+        }
+        return total;
+    }
+
+    public double getTotalPayment() {
+        return totalPayment;
+    }
+
+    public void setOrders(List<OrderInformation> orders) {
+        this.orders = orders;
+    }
+
+    public String getCustId() {
+        return custId;
+    }
+
+    public String getCustName() {
+        return custName;
+    }
+
+    public int getTableNumber() {
+        return tableNumber;
+    }
+
+    public int getCounterNumber() {
+        return counterNumber;
+    }
+
+    public int getOrderCount() {
+        return orderCount;
+    }
+
+    public void incrementOrderCount() {
+        this.orderCount++;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Customer Information\n")
+        .append("Customer ID: ").append(custId).append("\n")
+        .append("Name: ").append(custName).append("\n")
+        .append("Table Number: ").append(tableNumber).append("\n")
+        .append("Counter Number: ").append(counterNumber).append("\n")
+        .append("Orders:\n");
+
+        for (OrderInformation order : orders) {
+            sb.append("\t").append(order).append("\n");
+        }
+
+        sb.append("Total Payment: $").append(String.format("%.2f", calculateTotalPayment())).append("\n")
+        .append("Order Count: ").append(orderCount);
+
+        return sb.toString();
+    }
+}
+class OrderInformation {
+    private String orderId;
+    private String itemName;
+    private double itemPrice;
+    private int quantity;
+    private Date orderTime;
+
+    private static final SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm");
+
+    public OrderInformation(String orderId, String itemName, double itemPrice, int quantity, String orderTime) {
+        this.orderId = orderId;
+        this.itemName = itemName;
+        this.itemPrice = itemPrice;
+        this.quantity = quantity;
+        try {
+            this.orderTime = TIME_FORMAT.parse(orderTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public String getItemName() {
+        return itemName;
+    }
+
+    public double getItemPrice() {
+        return itemPrice;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public Date getOrderTime() {
+        return orderTime;
+    }
+
+    @Override
+    public String toString() {
+        return "Order ID: " + orderId + "\n" +
+        "Item Name: " + itemName + "\n" +
+        "Item Price: " + itemPrice + "\n" +
+        "Quantity: " + quantity + "\n" +
+        "Order Time: " + TIME_FORMAT.format(orderTime);
+    }
+}
+
+public class Queue {
+    private LinkedList<CustomerInformation> list = new LinkedList<>();
+
+    public void enqueue(CustomerInformation obj) {
+        list.addLast(obj);
+    }
+
+    public CustomerInformation dequeue() {
+        if (list.isEmpty()) {
+            throw new NoSuchElementException("Queue is empty");
+        }
+        return list.removeFirst();
+    }
+
+    public boolean isEmpty() {
+        return list.isEmpty();
+    }
+
+    public int size() {
+        return list.size();
+    }
+
+    public void clear() {
+        list.clear();
+    }
+
+    public void display() {
+        if (list.isEmpty()) {
+            System.out.println("Queue is empty");
+        } else {
+            System.out.println("Queue contents:");
+            for (CustomerInformation item : list) {
+                System.out.println(item);
+            }
+        }
+    }
+
+    public void distributeCustomers(Queue qCounter1, Queue qCounter2, Queue qCounter3) {
+        int counter1Count = 0;
+        int counter2Count = 0;
+
+        while (!list.isEmpty()) {
+            CustomerInformation custInfo = dequeue();
+
+            int numItems = getOrderItemCount(custInfo);
+
+            if (numItems <= 5) {
+                if (counter1Count <= counter2Count) {
+                    qCounter1.enqueue(custInfo);
+                    counter1Count++;
+                } else {
+                    qCounter2.enqueue(custInfo);
+                    counter2Count++;
+                }
+            } else {
+                qCounter3.enqueue(custInfo);
+            }
+        }
+    }
+
+    public boolean removeCustomerByIdAndName(String custId, String custName) {
+        for (CustomerInformation customer : list) {
+            if (customer.getCustId().equals(custId) && customer.getCustName().equals(custName)) {
+                list.remove(customer);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private int getOrderItemCount(CustomerInformation customer) {
+        int totalItems = 0;
+        for (OrderInformation order : customer.getOrders()) {
+            totalItems += order.getQuantity();
+        }
+        return totalItems;
+    }
+}
