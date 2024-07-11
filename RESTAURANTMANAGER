@@ -1,0 +1,530 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Stack;
+
+public class RestaurantManager extends JFrame {
+
+    private static LinkedList<CustomerInformation> qCounter1 = new LinkedList<>();
+    private static LinkedList<CustomerInformation> qCounter2 = new LinkedList<>();
+    private static LinkedList<CustomerInformation> qCounter3 = new LinkedList<>();
+    private static Stack<CustomerInformation> completeStack = new Stack<>();
+    private static int counter1Index = 0;
+    private static int counter2Index = 0;
+
+    private JFrame mainFrame;
+    private JPanel mainPanel;
+    private JPanel dashboardPanel;
+
+    public RestaurantManager() {
+        createAndShowGUI();
+        loadDataFromFile();
+    }
+
+    private void createAndShowGUI() {
+        mainFrame = new JFrame("Restaurant Manager");
+        mainFrame.setSize(1000, 600);
+        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mainFrame.setLayout(new BorderLayout());
+
+        // Sidebar Panel
+        JPanel sidebarPanel = new JPanel();
+        sidebarPanel.setPreferredSize(new Dimension(200, 600));
+        sidebarPanel.setBackground(new Color(51, 51, 51));
+        sidebarPanel.setLayout(new BorderLayout());
+
+        // Logo panel (aligned with username)
+        ImageIcon logoIcon = new ImageIcon("C:/Users/User/Desktop/UPTM/UPTM COURSE/NOTES SEM 3/DATA STRUCTUR/FINAL PROJECT FLORENTINO/OFFICIAL DESIGN/BTS/grossi_florentino.png");
+        Image scaledLogoImage = logoIcon.getImage().getScaledInstance(150, 20, Image.SCALE_SMOOTH);
+        ImageIcon scaledLogoIcon = new ImageIcon(scaledLogoImage);
+        JLabel logoLabel = new JLabel(scaledLogoIcon);
+        logoLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        logoLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 0));
+        sidebarPanel.add(logoLabel, BorderLayout.NORTH);
+
+        // Create buttons
+        JButton btnHome = createSidebarButton("Home", null);
+        JButton btnAddCustomers = createSidebarButton("Add Customers", null);
+        JButton btnRemoveCustomers = createSidebarButton("Remove Customers", null);
+        JButton btnCounter1 = createSidebarButton("Counter 1", qCounter1);
+        JButton btnCounter2 = createSidebarButton("Counter 2", qCounter2);
+        JButton btnCounter3 = createSidebarButton("Counter 3", qCounter3);
+        JButton btnExit = createSidebarButton("Exit and Display", completeStack);
+
+        // Sidebar Button Panel
+        JPanel sidebarButtonPanel = new JPanel();
+        sidebarButtonPanel.setLayout(new BoxLayout(sidebarButtonPanel, BoxLayout.Y_AXIS));
+        sidebarButtonPanel.setBackground(new Color(51, 51, 51));
+        sidebarButtonPanel.add(Box.createVerticalStrut(20));
+        sidebarButtonPanel.add(btnHome);
+        sidebarButtonPanel.add(Box.createVerticalStrut(10));
+        sidebarButtonPanel.add(btnAddCustomers);
+        sidebarButtonPanel.add(Box.createVerticalStrut(10));
+        sidebarButtonPanel.add(btnRemoveCustomers);
+        sidebarButtonPanel.add(Box.createVerticalStrut(10));
+        sidebarButtonPanel.add(btnCounter1);
+        sidebarButtonPanel.add(Box.createVerticalStrut(10));
+        sidebarButtonPanel.add(btnCounter2);
+        sidebarButtonPanel.add(Box.createVerticalStrut(10));
+        sidebarButtonPanel.add(btnCounter3);
+        sidebarButtonPanel.add(Box.createVerticalStrut(10));
+        sidebarButtonPanel.add(btnExit);
+        sidebarPanel.add(sidebarButtonPanel, BorderLayout.CENTER);
+
+        mainFrame.add(sidebarPanel, BorderLayout.WEST);
+
+        // Main Panel
+        mainPanel = new JPanel(new BorderLayout());
+        mainFrame.add(mainPanel, BorderLayout.CENTER);
+
+        // Dashboard Panel (initially empty)
+        dashboardPanel = new JPanel(new BorderLayout());
+        dashboardPanel.setBackground(Color.WHITE);
+        mainPanel.add(dashboardPanel, BorderLayout.CENTER);
+
+        showHomeScreen(); // Display the home screen initially
+
+        mainFrame.setVisible(true);
+    }
+
+    private void addCustomersToQueue() {
+        String custId = JOptionPane.showInputDialog(mainFrame, "Enter customer ID:");
+        String custName = JOptionPane.showInputDialog(mainFrame, "Enter customer name:");
+        int tableNumber = Integer.parseInt(JOptionPane.showInputDialog(mainFrame, "Enter table number:"));
+        int counterNumber = Integer.parseInt(JOptionPane.showInputDialog(mainFrame, "Enter counter number (1-3):"));
+
+        // Create CustomerInformation object with the entered details
+        CustomerInformation customer = new CustomerInformation(custId, custName, tableNumber, counterNumber);
+
+        // Add the customer to the appropriate queue based on counter number and quantity
+        Queue<CustomerInformation> targetQueue = (counterNumber == 3 || customer.getOrderCount() > 5) ? qCounter3 : qCounter1;
+
+        // Debug output
+        System.out.println("Customer added to queue: " + customer);
+
+        // Update UI or display message to reflect the changes
+        SwingUtilities.invokeLater(() -> {
+                    JLabel messageLabel = new JLabel("Customer added successfully");
+                    messageLabel.setFont(new Font("Arial", Font.BOLD, 14));
+                    messageLabel.setForeground(new Color(128, 128, 128)); // Gray color
+
+                    JOptionPane.showMessageDialog(mainFrame, messageLabel, "Update", JOptionPane.INFORMATION_MESSAGE);
+            });
+    }
+
+    // Define getQueueByCounter method outside of any other method
+    private Queue<CustomerInformation> getQueueByCounter(int counterNumber) {
+        switch (counterNumber) {
+            case 1:
+                return qCounter1;
+            case 2:
+                return qCounter2;
+            case 3:
+                return qCounter3;
+            default:
+                throw new IllegalArgumentException("Invalid counter number: " + counterNumber);
+        }
+    }
+
+    private void removeCustomerFromQueue(CustomerInformation customer, Queue<CustomerInformation> queue) {
+        queue.remove(customer);
+    }
+
+    private void removeCustomersFromQueue() {
+        String custIdToRemove = JOptionPane.showInputDialog(mainFrame, "Enter customer ID:");
+        String custNameToRemove = JOptionPane.showInputDialog(mainFrame, "Enter customer name:");
+
+        int counterNumber = Integer.parseInt(JOptionPane.showInputDialog(mainFrame, "Enter counter number (1-3):"));
+
+        Queue<CustomerInformation> queue = getQueueByCounter(counterNumber);
+        CustomerInformation customerToRemove = null;
+
+        // Find the customer in the queue
+        for (CustomerInformation customer : queue) {
+            if (customer.getCustId().equals(custIdToRemove) && customer.getCustName().equals(custNameToRemove)) {
+                customerToRemove = customer;
+                break;
+            }
+        }
+
+        if (customerToRemove != null) {
+            queue.remove(customerToRemove);
+            completeStack.push(customerToRemove); // Add the removed customer to the stack
+
+            JOptionPane.showMessageDialog(mainFrame, "Customer removed from queue " + counterNumber, "Customer Removed", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(mainFrame, "Customer removed from queue " + counterNumber, "Customer Removed", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+
+    private JButton createSidebarButton(String text, Object queueOrStack) {
+        JButton button = new JButton(text);
+        button.setFont(new Font("Roboto", Font.BOLD, 14));
+        button.setForeground(Color.WHITE);
+        button.setBackground(Color.BLACK);
+        button.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+
+        // Add action listener based on button text
+        if (text.equals("Home")) {
+            button.addActionListener(e -> showHomeScreen());
+        } else if (text.equals("Add Customers")) {
+            button.addActionListener(e -> addCustomersToQueue());
+        } else if (text.equals("Remove Customers")) {
+            button.addActionListener(e -> removeCustomersFromQueue());
+        } else if (queueOrStack instanceof Queue) {
+            button.addActionListener(e -> showCounterFrame(text, (Queue<CustomerInformation>) queueOrStack));
+        } else if (queueOrStack instanceof Stack) {
+            button.addActionListener(e -> calculateAndDisplayTotalReceipts());
+        }
+
+        return button;
+    }
+
+    private void calculateAndDisplayTotalReceipts() {
+        double totalReceipts = 0.0;
+        StringBuilder receiptDetails = new StringBuilder("<html><body>");
+
+        for (CustomerInformation customer : completeStack) {
+            double customerTotal = calculateTotalOrderAmount(customer);
+            totalReceipts += customerTotal;
+
+            receiptDetails.append("<div style='margin-bottom: 20px;'>")
+            .append("<h2>Customer Name: ").append(customer.getCustName()).append("</h2>")
+            .append("<p><b>Table Number:</b> ").append(customer.getTableNumber()).append("</p>")
+            .append("<h3>Orders:</h3>");
+
+            for (OrderInformation order : customer.getOrders()) {
+                receiptDetails.append("<div style='margin-left: 20px;'>")
+                .append("<p><b>Order ID:</b> ").append(order.getOrderId()).append("</p>")
+                .append("<p><b>Item Name:</b> ").append(order.getItemName()).append("</p>")
+                .append("<p><b>Item Price:</b> $").append(String.format("%.2f", order.getItemPrice())).append("</p>")
+                .append("<p><b>Quantity:</b> ").append(order.getQuantity()).append("</p>")
+                .append("<p><b>Order Time:</b> ").append(order.getOrderTime()).append("</p>")
+                .append("</div><br>");
+            }
+            receiptDetails.append("</div><br>");
+        }
+
+        receiptDetails.append("<h2>Total Receipts Collected: $").append(String.format("%.2f", totalReceipts)).append("</h2>")
+        .append("</body></html>");
+
+        JLabel receiptLabel = new JLabel(receiptDetails.toString());
+        receiptLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+
+        JScrollPane scrollPane = new JScrollPane(receiptLabel);
+        scrollPane.setPreferredSize(new Dimension(600, 400));  // Adjust the size as needed
+
+        JOptionPane.showMessageDialog(mainFrame, scrollPane, "Total Receipts", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    private double calculateTotalOrderAmount(CustomerInformation customer) {
+        double totalAmount = 0.0;
+        for (OrderInformation order : customer.getOrders()) {
+            totalAmount += order.getItemPrice() * order.getQuantity();
+        }
+        return totalAmount;
+    }
+
+    private void showHomeScreen() {
+        dashboardPanel.removeAll(); // Clear previous content
+
+        JPanel homePanel = new JPanel(new BorderLayout());
+        homePanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+
+        // Load and scale the image
+        ImageIcon icon = new ImageIcon("C:/Users/User/Desktop/UPTM/UPTM COURSE/NOTES SEM 3/DATA STRUCTUR/FINAL PROJECT FLORENTINO/OFFICIAL DESIGN/BTS/INTERIOR.jpg");
+        Image scaledImage = icon.getImage().getScaledInstance(700, 300, Image.SCALE_SMOOTH);
+        ImageIcon scaledIcon = new ImageIcon(scaledImage);
+        JLabel imageLabel = new JLabel(scaledIcon);
+        imageLabel.setBorder(BorderFactory.createLineBorder(new Color(184, 134, 11), 2)); // Gold border around the image
+        homePanel.add(imageLabel, BorderLayout.NORTH);
+
+        // Create a panel for the description
+        JPanel descriptionPanel = new JPanel(new BorderLayout());
+        descriptionPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        descriptionPanel.setBackground(new Color(238, 238, 238)); // Light grey background for text area
+
+        // Add a title label
+        JLabel titleLabel = new JLabel("WELCOME TO GROSSI FLORENTINO");
+        titleLabel.setFont(new Font("Serif", Font.BOLD, 30)); // Increased font size
+        titleLabel.setForeground(new Color(184, 134, 11)); // Gold text color
+        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        titleLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0)); // Added bottom padding
+        descriptionPanel.add(titleLabel, BorderLayout.NORTH);
+
+        // Add the description text
+        JTextArea descriptionArea = new JTextArea(
+                "Florentino is one of Melbourne’s most iconic dining venues, established in 1928, and has " +
+                "shaped Melbourne's hospitality and food culture. In 1999, it was rebranded as Grossi Florentino " +
+                "under the Grossi family's leadership. It is cherished by many for its enduring hospitality " +
+                "over the last century."
+            );
+        descriptionArea.setFont(new Font("Roboto", Font.PLAIN, 15)); // Increased font size
+        descriptionArea.setLineWrap(true);
+        descriptionArea.setWrapStyleWord(true);
+        descriptionArea.setEditable(false);
+        descriptionArea.setBackground(new Color(238, 238, 238)); // Match the panel's background
+        descriptionArea.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(new Color(184, 134, 11), 1), // Gold border around the text area
+                BorderFactory.createEmptyBorder(15, 15, 15, 15) // Increased padding
+            ));
+        descriptionPanel.add(descriptionArea, BorderLayout.CENTER);
+
+        homePanel.add(descriptionPanel, BorderLayout.CENTER);
+
+        dashboardPanel.add(homePanel, BorderLayout.CENTER);
+        dashboardPanel.revalidate();
+        dashboardPanel.repaint();
+    }
+
+    private void showCounterFrame(String counterTitle, Queue<CustomerInformation> queue) {
+        dashboardPanel.removeAll(); // Clear previous content
+        if (!queue.isEmpty()) {
+            JPanel counterPanel = new JPanel(new BorderLayout());
+            counterPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+
+            // Header Panel
+            JPanel headerPanel = new JPanel(new BorderLayout());
+            headerPanel.setBackground(new Color(34, 40, 49)); // Dark navy or black color
+            JLabel titleLabel = new JLabel(counterTitle);
+            titleLabel.setFont(new Font("Serif", Font.BOLD, 20));
+            titleLabel.setForeground(new Color(218, 165, 32)); // Gold color
+            titleLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+            headerPanel.add(titleLabel, BorderLayout.WEST);
+            counterPanel.add(headerPanel, BorderLayout.NORTH);
+
+            // Customer List Panel
+            JPanel customerPanel = new JPanel();
+            customerPanel.setLayout(new BoxLayout(customerPanel, BoxLayout.Y_AXIS));
+            customerPanel.setBackground(new Color(247, 247, 247)); // Light marble color
+
+            JScrollPane scrollPane = new JScrollPane(customerPanel);
+            scrollPane.getVerticalScrollBar().setUnitIncrement(16); // Adjust scroll speed
+            scrollPane.setBorder(BorderFactory.createEmptyBorder());
+            counterPanel.add(scrollPane, BorderLayout.CENTER);
+
+            // Button Panel (Centered)
+            JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER)); // Center alignment
+            buttonPanel.setBackground(new Color(34, 40, 49)); // Match header color
+
+            JButton btnClose = new JButton("Close");
+            btnClose.setFont(new Font("Serif", Font.BOLD, 14));
+            btnClose.setForeground(Color.WHITE);
+            btnClose.setBackground(new Color(218, 165, 32)); // Gold color
+            btnClose.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+            btnClose.setOpaque(true);
+            btnClose.setBorderPainted(false);
+            btnClose.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            btnClose.addActionListener(e -> mainFrame.dispose());
+            buttonPanel.add(btnClose);
+
+            JButton btnAddCustomers = new JButton("Add 5 Customers");
+            btnAddCustomers.setFont(new Font("Serif", Font.BOLD, 14));
+            btnAddCustomers.setForeground(Color.WHITE);
+            btnAddCustomers.setBackground(new Color(218, 165, 32)); // Gold color
+            btnAddCustomers.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+            btnAddCustomers.setOpaque(true);
+            btnAddCustomers.setBorderPainted(false);
+            btnAddCustomers.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            btnAddCustomers.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        int batchCounter = 0;
+                        while (!queue.isEmpty() && batchCounter < 5) {
+                            CustomerInformation customer = queue.poll();
+                            JLabel customerLabel = new JLabel(customer.toString());
+                            customerLabel.setFont(new Font("Serif", Font.PLAIN, 16));
+                            customerLabel.setBorder(BorderFactory.createEmptyBorder(5, 20, 5, 20));
+                            customerPanel.add(customerLabel);
+                            customerPanel.revalidate();
+                            customerPanel.repaint();
+                            scrollPane.getVerticalScrollBar().setValue(scrollPane.getVerticalScrollBar().getMaximum());
+
+                            // Generate and print receipt for each customer
+                            generateAndPrintReceipt(customer);
+
+                            batchCounter++;
+                        }
+                    }
+                });
+            buttonPanel.add(btnAddCustomers);
+
+            JButton btnTotalCustomers = new JButton("Total Customers");
+            btnTotalCustomers.setFont(new Font("Serif", Font.BOLD, 14));
+            btnTotalCustomers.setForeground(Color.WHITE);
+            btnTotalCustomers.setBackground(new Color(218, 165, 32)); // Gold color
+            btnTotalCustomers.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+            btnTotalCustomers.setOpaque(true);
+            btnTotalCustomers.setBorderPainted(false);
+            btnTotalCustomers.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            btnTotalCustomers.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        int totalCustomers = customerPanel.getComponentCount();
+                        JOptionPane.showMessageDialog(mainFrame, "Total Customers Served: " + totalCustomers, "Total Customers", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                });
+            buttonPanel.add(btnTotalCustomers);
+
+            counterPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+            dashboardPanel.add(counterPanel, BorderLayout.CENTER);
+            mainPanel.revalidate();
+            mainPanel.repaint();
+        }
+    }
+
+    private void generateAndPrintReceipt(CustomerInformation customer) {
+        // Assuming you have a Receipt class or method to generate receipts
+        String receipt = generateReceipt(customer);
+
+        // Display the receipt (example using JOptionPane)
+        JOptionPane.showMessageDialog(mainFrame, receipt, "Receipt", JOptionPane.PLAIN_MESSAGE);
+    }
+
+    private String generateReceipt(CustomerInformation customer) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("\n");
+        sb.append("*                    Customer Receipt             *\n");
+        sb.append("\n");
+        sb.append(String.format("Customer Name: %-20s\n", centerText(customer.getCustName())));
+        sb.append(String.format("Table Number:  %-20s\n", centerText(String.valueOf(customer.getTableNumber()))));
+        sb.append("\n");
+        sb.append("Orders:\n");
+        sb.append("--------------------------------------------------------------\n");
+
+        for (OrderInformation order : customer.getOrders()) {
+            sb.append(String.format("%s\n", centerText(String.format("%-25s %-10d $%.2f", order.getItemName(), order.getQuantity(), order.getItemPrice() * order.getQuantity()))));
+        }
+
+        sb.append("--------------------------------------------------------------\n");
+        sb.append(String.format("Total Orders: %-10d\n", customer.getOrders().size()));
+        sb.append("\n");
+
+        return sb.toString();
+    }
+
+    private String centerText(String text) {
+        int width = 50; // Assuming a fixed width for centering
+        int padding = (width - text.length()) / 2;
+        return String.format("%" + (padding + text.length()) + "s", text);
+    }
+
+    private void loadDataFromFile() {
+        Queue<CustomerInformation> queue = new LinkedList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader("customerList.txt"))) {
+            String line;
+            int counterNumber = 1;
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",");
+                if (data.length < 8) {
+                    System.err.println("Skipping line: " + line + " - Incorrect format");
+                    continue;
+                }
+
+                String custId = data[0].trim();
+                String custName = data[1].trim();
+                int tableNumber = Integer.parseInt(data[2].trim());
+                String orderId = data[3].trim();
+                String itemName = data[4].trim();
+                double itemPrice = Double.parseDouble(data[5].trim());
+                int quantity = Integer.parseInt(data[6].trim());
+                String orderTime = data[7].trim();
+
+                CustomerInformation customer = new CustomerInformation(custId, custName, tableNumber, counterNumber);
+                customer.addOrder(new OrderInformation(orderId, itemName, itemPrice, quantity, orderTime));
+                customer.incrementOrderCount();
+                queue.add(customer);
+
+                counterNumber = (counterNumber % 3) + 1;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        distributeCustomers(queue, qCounter1, qCounter2, qCounter3);
+    }
+
+    private void distributeCustomers(Queue<CustomerInformation> queue, Queue<CustomerInformation> qCounter1, Queue<CustomerInformation> qCounter2, Queue<CustomerInformation> qCounter3) {
+        while (!queue.isEmpty()) {
+            CustomerInformation customer = queue.poll();
+            if (customer.getCounterNumber() == 1) {
+                qCounter1.add(customer);
+            } else if (customer.getCounterNumber() == 2) {
+                qCounter2.add(customer);
+            } else if (customer.getCounterNumber() == 3) {
+                qCounter3.add(customer);
+            }
+        }
+        // After distributing, add customers to completeStack
+        completeStack.addAll(qCounter1);
+        completeStack.addAll(qCounter2);
+        completeStack.addAll(qCounter3);
+    }
+
+    private void displayCompletedTransactions() {
+        dashboardPanel.removeAll(); // Clear previous content
+
+        JPanel completePanel = new JPanel(new BorderLayout());
+        completePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Smaller border
+
+        // Header Panel
+        JPanel headerPanel = new JPanel(new BorderLayout());
+        headerPanel.setBackground(new Color(34, 40, 49)); // Dark navy or black color
+        JLabel titleLabel = new JLabel("Completed Transactions");
+        titleLabel.setFont(new Font("Serif", Font.BOLD, 20));
+        titleLabel.setForeground(new Color(218, 165, 32)); // Gold color
+        titleLabel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10)); // Smaller border
+        headerPanel.add(titleLabel, BorderLayout.WEST);
+        completePanel.add(headerPanel, BorderLayout.NORTH);
+
+        // Customer List Panel
+        JPanel customerPanel = new JPanel(new GridBagLayout());
+        customerPanel.setBackground(new Color(247, 247, 247)); // Light marble color
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 5, 5, 5); // Smaller spacing between labels
+
+        for (CustomerInformation customer : completeStack) {
+            JLabel customerLabel = new JLabel(customer.toString());
+            customerLabel.setFont(new Font("Serif", Font.PLAIN, 16));
+            customerLabel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10)); // Smaller border
+            gbc.gridx = 0;
+            gbc.gridy++;
+            customerPanel.add(customerLabel, gbc);
+        }
+
+        JScrollPane scrollPane = new JScrollPane(customerPanel);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(16); // Adjust scroll speed
+        scrollPane.setBorder(BorderFactory.createEmptyBorder());
+        completePanel.add(scrollPane, BorderLayout.CENTER);
+
+        // Button Panel
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        buttonPanel.setBackground(new Color(34, 40, 49)); // Match header color
+        JButton btnClose = new JButton("Close");
+        btnClose.setFont(new Font("Serif", Font.BOLD, 14));
+        btnClose.setForeground(Color.WHITE);
+        btnClose.setBackground(new Color(218, 165, 32)); // Gold color
+        btnClose.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10)); // Smaller border
+        btnClose.setOpaque(true);
+        btnClose.setBorderPainted(false);
+        btnClose.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btnClose.addActionListener(e -> mainFrame.dispose());
+        buttonPanel.add(btnClose);
+        completePanel.add(buttonPanel, BorderLayout.SOUTH);
+
+        dashboardPanel.add(completePanel, BorderLayout.CENTER);
+        mainPanel.revalidate();
+        mainPanel.repaint();
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> new RestaurantManager());
+    }
+}
