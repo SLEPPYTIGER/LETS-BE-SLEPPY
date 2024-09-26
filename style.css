@@ -1,0 +1,347 @@
+/* General reset */
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+/* Navigation Menu Styling */
+.menu-bar {
+    background: linear-gradient(to right, #63360D, #FFAE28);
+    padding: 20px 0; /* Padding top/bottom for spacing */
+}
+
+/* Logo */
+.logo {
+    position: absolute;
+    top: -1px; /* Logo position from top */
+    left: 20px; /* Logo position from left */
+    z-index: 1; /* Ensure logo is above the menu */
+}
+
+.logo img {
+    width: 290px; /* Logo width */
+    height: auto; /* Maintain aspect ratio */
+}
+
+/* Navigation Menu Container */
+.container {
+    display: flex;
+    justify-content: center; /* Center the menu items */
+}
+
+/* Menu List Style */
+.menu-bar ul {
+    display: flex;
+    list-style: none;
+    color: #FFAE28; /* Text color */
+    text-align: center;
+}
+
+/* Menu Items */
+.menu-bar ul li {
+    margin: 0 50px; /* Horizontal spacing between menu items */
+    padding: 10px 0; /* Vertical padding */
+    position: relative;
+}
+
+.menu-bar ul li a {
+    font-family: "Roboto", sans-serif;
+    text-decoration: none;
+    color: #fff; /* Menu item text color */
+    font-weight: bold;
+    transition: color 0.3s ease; /* Smooth transition for color change */
+    text-align: center;
+}
+
+/* Main Menu Hover Effect */
+.menu-bar ul li a:hover {
+    color: #FFAE28; /* Change color on hover */
+}
+
+/* Sub-menu Styling */
+.sub-menu-1 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: normal;
+    display: none;
+    position: absolute; /* Ensure it is positioned relative to the parent */
+    top: 100%; /* Align below the parent */
+    left: 50%; /* Center align */
+    transform: translateX(-50%); /* Adjust position to center */
+    z-index: 1; /* Ensure it appears above other elements */
+    padding: 0; /* Reset padding */
+}
+
+.menu-bar ul li:hover .sub-menu-1 {
+    display: block; /* Show dropdown on hover */
+}
+
+.menu-bar ul li:hover .sub-menu-1 ul {
+    display: block;
+    margin: 0;
+}
+
+/* Sub-menu Items */
+.sub-menu-1 ul li {
+    width: 150px;
+    padding: 10px;
+    border-radius: 0;
+    background-color: #fff; /* White background for the submenu items */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition */
+    font-family: "Roboto", sans-serif; /* Consistent font styling */
+    text-align: left;
+    font-weight: normal;
+}
+
+/* Sub-menu Last Item */
+.sub-menu-1 ul li:last-child {
+    border-bottom: none;
+}
+
+/* Sub-menu Item Text */
+.sub-menu-1 ul li a {
+    text-decoration: none;
+    color: #3C3C3A; /* Darker text color for submenu */
+    font-weight: bold; /* Bold font weight for submenu items */
+    transition: color 0.3s ease; /* Smooth transition for text color */
+    font-size: 13px;
+}
+
+/* Sub-menu Item Hover Effect */
+.sub-menu-1 ul li:hover {
+    background-color: #3C3C3A; /* Dark background on hover */
+}
+
+.sub-menu-1 ul li a:hover {
+    color: #F16622; /* White text on hover */
+}
+
+/* Sub-menu hover and color */
+.menu-bar ul li:hover .sub-menu-1 ul li {
+    background: #fff; /* Keep submenu background white */
+    color: #3C3C3A; /* Keep text color dark */
+}
+
+.menu-bar ul li:hover .sub-menu-1 ul li:hover {
+    background: #3C3C3A; /* Dark background on hover */
+    color: #F16622; /* White text color when hovered */
+}
+
+/* Additional hover effect for sub-menu items */
+.menu-bar ul li:hover .sub-menu-1 ul li a:hover {
+    color: #F16622; /* White text when hovering over submenu items */
+}
+
+/* Font Awesome Icon Margin */
+.fa-angle-down {
+    margin-left: 8px; /* Space between text and icon */
+}
+
+/* Importing fonts from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Roboto:wght@700&display=swap');
+
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.delivery-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.image-container {
+    flex: 1;
+    margin-right: 20px;
+}
+
+.image-container img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    margin-top: 20%;
+}
+
+.text-container {
+    flex: 1;
+    padding-left: 40px;
+    color: #3B3C3B;
+    margin-right: 10px; /* Space between the image and text */
+}
+h2 {
+    line-height: 2.0; /* Adjust this value to control the spacing */
+    font-weight: normal;
+    font-family: 'Roboto', sans-serif;
+}
+
+p {
+    line-height: 1.6; /* Adjust this value for paragraph spacing */
+    font-family: 'Roboto', sans-serif;
+}
+.features {
+    margin-top: 20px;
+}
+
+.feature {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 25px;
+}
+
+.feature img.feature-icon {
+    width: 50px; /* Set the size of the image */
+    height: 50px; /* Adjust height accordingly */
+    margin-right: 15px; /* Space between the image and text */
+    color: #3B3C3B;
+}
+
+.feature h4 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #3B3C3B;
+}
+
+.feature p {
+    font-size: 16px;
+    color: #3B3C3B;
+}
+
+.btn {  
+    font-family: 'Roboto', sans-serif;
+    font-size: 25px;  
+    background: #F16622;  
+    width: 420px; 
+    padding: 11px;  
+    text-align: center;  
+    text-decoration: none; 
+    color: #fff;  
+    border-radius: 5px;  
+    cursor: pointer;  
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);  
+    transition-duration: 0.3s;
+    -webkit-transition-property: box-shadow, transform;
+    transition-property: box-shadow, transform; 
+    height: auto; /* Changed to auto for button height */
+}
+
+/* Container to center the button */
+.button-container {
+    display: flex;  
+    justify-content: center;  
+    align-items: center;  
+}
+
+.btn:hover,
+.btn:focus,
+.btn:active {
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+}
+footer {  
+    background-color: #3B3C3B;  
+}  
+
+.footerContainer {
+    width: 100%;
+    padding: 0px 180px 0px;
+    text-align: right; /* Aligns content to the right */
+    margin: 0; /* Remove any margins */
+    padding-right: 20px; /* Optional: adjust padding */
+}
+.footerContainer h5 {
+    color: #3B3C3B; /* Sets the text color to gray */
+    margin-bottom: 10px; /* Adds some space below the "FOLLOW" text */
+    font-size: 15px; /* Adjust font size if needed */
+    font-family: "Roboto", sans-serif;  
+    padding: 0px 170px 0px;
+    margin: 0; /* Remove any margins */
+    padding-right: 140px; /* Optional: adjust padding */
+}
+.socialIcons {  
+    display: flex;  
+    justify-content: right;  
+}  
+
+.socialIcons a {  
+    text-decoration: none;  
+    padding: 10px;  
+    background-color: white;  
+    margin: 10px;
+    border-radius: 50%
+}
+.socialIcons a {  
+    text-decoration: none;  
+    padding: 0px;  
+    background-color: white;  
+    margin: 10px;  
+    border-radius: 50%;  
+}  
+
+.socialIcons a {  
+    font-size: 2em;  
+    color: #3B3C3B;  
+    opacity: 0.9;  
+}  
+
+/* Hover Effects on Social Media Icons */  
+.socialIcons a:hover {  
+    background-color: #111;  
+    transition: 0.5s;  
+}
+.socialIcons a:hover {  
+    color: white;  
+    transition: 0.5s;  
+}  
+
+.footerNav {  
+    margin: 30px 0;  
+}  
+
+.footerNav ul {  
+    display: flex;  
+    justify-content: right;  
+
+}  
+
+.footerNav ul li a {  
+    color: white;  
+    margin: 20px;  
+    text-decoration: none;  
+    font-size: 1.3em;  
+    opacity: 0.7;  
+    transition: 0.5s; 
+}
+.footerNav ul li a:hover {
+    opacity:1;
+}
+.footerBottom {
+    display: flex; /* Flexbox for alignment */
+    align-items: center; /* Aligns the text and icons vertically */
+    padding: 0px 30px; /* Adjust padding as needed */
+    background-color: #fff; /* Background for the footer */
+}
+
+.footerBottom p {
+    color: #3B3C3B; /* Text color */
+    font-size: 15px; /* Adjust font size */
+    font-family: "Roboto", sans-serif;
+    margin: 0; /* Remove any margins */
+    padding-left: 20px; /* Optional: adjust padding */
+    padding-top: 30px;
+    margin-top: -4px;
+    margin-bottom: -50px; /* Adds some space below the "FOLLOW" text */
+}
+.designer {  
+    opacity: 0.7;  
+    text-transform: uppercase;  
+    letter-spacing: 1px;  
+    font-weight: 400;  
+    margin: 0px;  
+    border-radius: 50%;   
+}
