@@ -1,120 +1,161 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LALAMOVE</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>Sales Commission Calculation</title>
+    <style>
+        /* Basic reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #74ebd5 0%, #9face6 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #444;
+        }
+
+        /* Container styling */
+        .form-container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+            max-width: 450px;
+            width: 100%;
+            transition: all 0.3s ease;
+            transform: scale(1);
+        }
+
+        .form-container:hover {
+            transform: scale(1.03);
+        }
+
+        /* Heading */
+        h2 {
+            text-align: center;
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        /* Form group */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            color: #555;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #74ebd5;
+            box-shadow: 0 0 5px rgba(0, 214, 255, 0.5);
+        }
+
+        /* Submit button */
+        .form-group button {
+            width: 100%;
+            padding: 12px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .form-group button:hover {
+            background-color: #218838;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Add a subtle fade-in animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-container {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        /* Footer note */
+        .footer-note {
+            margin-top: 15px;
+            text-align: center;
+            font-size: 12px;
+            color: #777;
+        }
+
+        .footer-note a {
+            color: #28a745;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .footer-note a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
+
 <body>
-    <header>
-        <div class="menu-bar">  
-            <a class="logo" href="#">
-                <img src="IMAGE/LOGOBLACK.png" alt="logo" />
-            </a>
-            <div class="container">
-                <ul>  
-                    <li>
-                        <a href="https://www.lalamove.com/en-my/business">Business <i class="fa fa-angle-down"></i></a>
-                        <div class="sub-menu-1">
-                            <ul>
-                                <li><a href="https://www.lalamove.com/en-my/business">For Business</a></li>
-                                <li><a href="https://www.lalamove.com/en-my/business/ecommerce-integrations">E-Commerce Integrations</a></li>
-                                <li><a href="https://www.lalamove.com/en-my/business/api-solutions">API Solutions</a></li>
-                                <li><a href="https://www.lalamove.com/en-my/customised-solutions">Customised Solutions</a></li>
-                                <li><a href="https://www.lalamove.com/en-my/business/channel-partners">Channel Partnerships</a></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li><a href="https://www.lalamove.com/en-my/personal">Personal</a></li>  
-                    <li>
-                        <a href="https://www.lalamove.com/en-my/driver">Driver <i class="fa fa-angle-down"></i></a>
-                        <div class="sub-menu-1">
-                            <ul>
-                                <li><a href="https://www.lalamove.com/en-my/driver">Be A Driver Partner</a></li>
-                                <li><a href="https://www.lalamove.com/en-my/fleet-management">Fleet Management</a></li>
-                                <li><a href="https://www.lalamove.com/en-my/driver/referral-programme-2024">Referral Program</a></li>
-                                <li><a href="https://www.lalamove.com/en-my/driver/rewards">Driver Rewards</a></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li><a href="https://www.lalamove.com/en-my/lalamove-rewards">Rewards</a></li>  
-                    <li>
-                        <a href="https://www.lalamove.com/en-my/about-lalamove">Company <i class="fa fa-angle-down"></i></a>
-                        <div class="sub-menu-1">
-                            <ul>
-                                <li><a href="https://www.lalamove.com/en-my/about-lalamove">About Us</a></li>
-                                <li><a href="https://www.lalamove.com/en-my/deliver-care">Deliver Care</a></li>
-                                <li><a href="https://www.lalamove.com/en-my/blog/all">Blog</a></li>
-                                <li><a href="https://www.lalamove.com/careers">Careers</a></li>
-                                <li><a href="https://www.lalamove.com/en-my/contact">Contact</a></li>
-                            </ul>
-                        </div>
-                    </li> 
-                </ul>  
+
+    <div class="form-container">
+        <h2>Sales Commission Calculator</h2>
+        <form action="calculate_commission.php" method="post">
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" placeholder="Enter your full name" required>
             </div>
-        </div> 
-    </header>
-    
-    <!-- HOME -->
-<div class="delivery-section">
-    <div class="image-container">
-        <img src="IMAGE/ABOUT.jpg" alt="Delivery Service Image">
-    </div>
-    <div class="text-container">
-        <h2>Your 24/7 delivery partner</h2>
-        <p><strong>Fast. Simple. Affordable.</strong></p>
-        <div class="features">
-            <div class="feature">
-                <img src="IMAGE/1.jpg" alt="24/7 Service" class="feature-icon"> <!-- Replace the icon with an image -->
-                <div>
-                    <h4>24/7 Service</h4>
-                    <p>We’ll be there for you. Same day delivery or next day delivery? It’s your call</p>
-                </div>
+            <div class="form-group">
+                <label for="month">Month</label>
+                <input type="text" id="month" name="month" placeholder="Enter the month" required>
             </div>
-            <div class="feature">
-                <img src="IMAGE/2.jpg" alt="Affordable Service" class="feature-icon"> 
-                <div>
-                    <h4>Affordable</h4>
-                    <p>Transparent pricing with no hidden costs. Pay directly through the app with various payment options or make a cash payment to our delivery partners</p>
-                </div>
+            <div class="form-group">
+                <label for="sales_amount">Sales Amount (RM)</label>
+                <input type="number" id="sales_amount" name="sales_amount" placeholder="Enter total sales amount" required>
             </div>
-            <div class="feature">
-                <img src="IMAGE/3.jpg" alt="Vehicle Choices" class="feature-icon"> 
-                <div>
-                    <h4>A variety of vehicle choices</h4>
-                    <p>Select a vehicle that is compatible with your delivery requirement</p>
-                </div>
+            <div class="form-group">
+                <button type="submit">Calculate Commission</button>
             </div>
-            <div class="feature">
-                <img src="IMAGE/4.jpg" alt="Real-time Tracking" class="feature-icon"> 
-                <div>
-                    <h4>Real-time tracking</h4>
-                    <p>Get a bird’s eye view of your delivery progress in real-time</p>
-                </div>
-            </div>
+        </form>
+        <div class="footer-note">
+            <p>Powered by <a href="#">Your Company</a></p>
         </div>
     </div>
-</div>  
-<!-- END HOME -->
-
-    <!-- Button for pricing details -->
-    <div class="button-container">
-        <a href="https://www.lalamove.com/en-my/all-vehicle-pricing-detail" class="btn">View Complete Pricing Details</a>
-    </div>
-
-    <!-- Footer -->
-<div class="footerbottom">
-    <p>&copy;LALAMOVE 2023. ALL RIGHTS RESERVED</span></p>
-</div>
-    <div class="footerContainer"> 
-        <h5>FOLLOW</h5> 
-        <div class="socialIcons">  
-        <a href="https://www.facebook.com/LalamoveMY"><i class="fa-brands fa-facebook"></i></a>  
-        <a href="https://www.instagram.com/lalamovemy/"><i class="fa-brands fa-instagram"></i></a> 
-        <a href="https://www.youtube.com/channel/UC2YVWH9ZQC1weHk6iV1Yp1Q"><i class="fa-brands fa-youtube"></i></a>  
-        <a href="https://my.linkedin.com/company/lalamove"><i class="fa-brands fa-linkedin"></i>
 
 </body>
+
 </html>
